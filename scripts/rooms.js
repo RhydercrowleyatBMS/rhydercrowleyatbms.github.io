@@ -13,6 +13,7 @@ const roomListEl = document.getElementById("room-list");
 const createForm = document.getElementById("create-room-form");
 const roomNameInput = document.getElementById("room-name");
 const identityEl = document.getElementById("identity");
+const backHomeBtn = document.getElementById("back-home-btn");
 
 const defaultRooms = [
   { id: "general", name: "general", isDefault: true },
@@ -20,15 +21,18 @@ const defaultRooms = [
 ];
 
 const name = localStorage.getItem("flop_name");
-const isAdmin = localStorage.getItem("flop_isAdmin") === "true";
+const role = localStorage.getItem("flop_role") || "user";
 
 if (!name) {
-  window.location.href = "index.html";
+  window.location.href = "auth.html";
 }
 
-identityEl.textContent = `Logged in as ${name}${isAdmin ? " [ADMIN]" : ""}.`;
+identityEl.textContent = `Logged in as ${name} [${role}].`;
 
-// Ensure default rooms exist
+backHomeBtn.addEventListener("click", () => {
+  window.location.href = "index.html";
+});
+
 async function ensureDefaultRooms() {
   for (const r of defaultRooms) {
     const roomRef = ref(db, `rooms/${r.id}`);
@@ -44,7 +48,6 @@ async function ensureDefaultRooms() {
   }
 }
 
-// Clean up expired custom rooms (and their messages)
 async function cleanupRoomsOnce(roomsSnapshot) {
   const now = Date.now();
   const updates = [];
@@ -136,7 +139,6 @@ function renderRooms(roomsSnapshot) {
   }
 }
 
-// Create custom room
 createForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const raw = roomNameInput.value.trim();
