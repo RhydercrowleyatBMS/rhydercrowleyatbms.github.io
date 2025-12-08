@@ -2,38 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Floptropica // Home</title>
-  <link rel="stylesheet" href="styles/glitch.css">
+  <title>★ F L O P T R O P I C A ★</title>
+  <link rel="stylesheet" href="styles/glitch.css" />
 </head>
+
 <body>
   <div class="shell">
     <main class="main-content">
       <div class="max-width">
-        <div class="app-title">Floptropica</div>
-        <div class="app-subtitle">private willisisd chat system</div>
+        
+        <h1 class="app-title">Floptropica</h1>
+        <p class="app-subtitle">dont h8 me cuz im fabulous</p>
 
         <div class="panel">
           <div class="panel-header">
-            <div class="panel-title">welcome</div>
-            <div class="panel-meta">choose an option</div>
+            <h3 class="panel-title">LOG-IN TO BE SCENE</h3>
+            <p class="panel-meta">ENTER YOUR HAWT USER INFO</p>
           </div>
 
-          <div class="index-note" id="user-status"></div>
+          <form>
+            <label for="username">♥ SCREEN NAME ♥</label>
+            <input id="username" type="text" placeholder="xX_ur_sn_Xx">
 
-          <button id="login-btn" type="button">Log In</button>
-          <button id="create-btn" type="button">Create Account</button>
-          <button id="rooms-btn" type="button">Enter Chat Rooms</button>
-          <button id="admin-btn" type="button" style="display:none;">Admin Panel</button>
-          <button id="logout-btn" type="button">Log Out</button>
-        </div>
+            <label for="password">♥ PASSWORD ♥</label>
+            <input id="password" type="password" placeholder="dont tell anyone >:O">
 
-        <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title">guest mode</div>
-            <div class="panel-meta">temporary access (future feature)</div>
+            <button type="submit">SIGN IN</button>
+          </form>
+
+          <div class="chat-footer-nav" style="text-align: center;">
+            <a href="rooms.html">Enter as Guest?</a>
           </div>
-          <button id="guest-btn" type="button">Continue via auth page</button>
-          <div class="index-note">Guests later, for now use Create Account.</div>
         </div>
 
       </div>
@@ -47,69 +46,5 @@
       </div>
     </footer>
   </div>
-
-  <script type="module">
-    const loginBtn = document.getElementById("login-btn");
-    const createBtn = document.getElementById("create-btn");
-    const roomsBtn = document.getElementById("rooms-btn");
-    const adminBtn = document.getElementById("admin-btn");
-    const guestBtn = document.getElementById("guest-btn");
-    const logoutBtn = document.getElementById("logout-btn");
-    const userStatus = document.getElementById("user-status");
-
-    const name = localStorage.getItem("flop_name");
-    const role = localStorage.getItem("flop_role") || "user";
-
-    if (name) {
-      userStatus.textContent = `Logged in as ${name} [${role}]`;
-      roomsBtn.style.display = "inline-block";
-
-      if (["mod", "owner"].includes(role)) {
-        adminBtn.style.display = "inline-block";
-      }
-    } else {
-      userStatus.textContent = "Not logged in.";
-      roomsBtn.style.display = "none";
-      adminBtn.style.display = "none";
-    }
-
-    loginBtn.addEventListener("click", () => {
-      window.location.href = "auth.html";
-    });
-
-    createBtn.addEventListener("click", () => {
-      window.location.href = "auth.html";
-    });
-
-    roomsBtn.addEventListener("click", () => {
-      if (!name) {
-        alert("You must log in first.");
-        return;
-      }
-      window.location.href = "rooms.html";
-    });
-
-    adminBtn.addEventListener("click", () => {
-      if (!name) {
-        alert("Not logged in.");
-        return;
-      }
-      window.location.href = "admin.html";
-    });
-
-    guestBtn.addEventListener("click", () => {
-      window.location.href = "auth.html";
-    });
-
-    logoutBtn.addEventListener("click", () => {
-      localStorage.removeItem("flop_email");
-      localStorage.removeItem("flop_name");
-      localStorage.removeItem("flop_role");
-      localStorage.removeItem("flop_userKey");
-      userStatus.textContent = "Logged out.";
-      roomsBtn.style.display = "none";
-      adminBtn.style.display = "none";
-    });
-  </script>
 </body>
 </html>
