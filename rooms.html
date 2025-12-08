@@ -2,44 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Floptropica // Rooms</title>
-  <link rel="stylesheet" href="styles/glitch.css">
-
-  <style>
-    /* Extra styling for room list */
-
-    .room-item {
-      padding: 15px;
-      margin-bottom: 10px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: rgba(255, 255, 255, 0.05);
-      cursor: pointer;
-      transition: 0.15s;
-    }
-
-    .room-item:hover {
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    #admin-panel-btn {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: rgba(255,255,255,0.06);
-      color: white;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    #admin-panel-btn:hover {
-      background: rgba(255,255,255,0.15);
-      box-shadow: 0 0 10px rgba(150,180,255,0.3);
-    }
-
-  </style>
+  <title>★ R O O M S // L I S T ★</title>
+  <link rel="stylesheet" href="styles/glitch.css" />
 </head>
 
 <body>
@@ -47,31 +11,36 @@
     <main class="main-content">
       <div class="max-width">
 
-        <h1 class="app-title">Floptropica</h1>
-        <p class="app-subtitle">Select a Room</p>
+        <h1 class="app-title">FLOP ROOMS</h1>
+        <p class="app-subtitle">choose ur fav space to chat!</p>
 
         <div class="panel">
           <div class="panel-header">
-            <div class="panel-title">Rooms</div>
-            <div class="panel-meta">Hello, <span id="identity"></span></div>
+            <h3 class="panel-title">ROOMZ [69 ONLINE]</h3>
+            <p class="panel-meta">click to join</p>
           </div>
 
-          <!-- ROOM LIST -->
-          <div id="room-list"></div>
-
-          <!-- CREATE ROOM -->
-          <form id="create-room-form" style="margin-top:20px;">
-            <label for="room-name">Create New Room</label>
-            <input type="text" id="room-name" placeholder="Room Name" autocomplete="off">
-            <button type="submit">Create</button>
-          </form>
-
-          <!-- ADMIN PANEL BUTTON -->
-          <button id="admin-panel-btn" style="display:none;">Admin Panel</button>
-
-          <!-- HOME BUTTON -->
-          <button id="back-home-btn" style="margin-top:15px;">Home</button>
-
+          <div id="room-list">
+            <div class="room-item" onclick="window.location.href='chat.html'">
+              **~*~ The Cheetah Print VIP Lounge ~*~** (14 users)
+            </div>
+            <div class="room-item" onclick="window.location.href='chat.html'">
+              **Rawr XD Club** (23 users)
+            </div>
+            <div class="room-item" onclick="window.location.href='chat.html'">
+              **Gossip & Scene Queen Drama** (9 users)
+            </div>
+            <div class="room-item" onclick="window.location.href='chat.html'">
+              **Hot Emo Music Vids** (7 users)
+            </div>
+            <div class="room-item" onclick="window.location.href='chat.html'">
+              **Private: BFFs Only** (3 users)
+            </div>
+          </div>
+          
+          <div class="chat-footer-nav" style="margin-top: 25px;">
+            <a href="index.html">← Back to Log-In</a>
+          </div>
         </div>
 
       </div>
@@ -85,22 +54,5 @@
       </div>
     </footer>
   </div>
-
-  <!-- ROOMS SCRIPT -->
-  <script type="module" src="scripts/rooms.js"></script>
-
-  <!-- ADMIN BUTTON LOGIC -->
-  <script>
-    const role = localStorage.getItem("flop_role");
-    const adminBtn = document.getElementById("admin-panel-btn");
-
-    if (role === "owner" || role === "admin") {
-      adminBtn.style.display = "block";
-      adminBtn.onclick = () => {
-        window.location.href = "admin.html";
-      };
-    }
-  </script>
-
 </body>
 </html>
