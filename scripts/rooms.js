@@ -1,4 +1,7 @@
-// scripts/rooms.js
+// ======================
+//  rooms.js (new, fixed)
+// ======================
+
 import { db, ONE_DAY_MS } from "./firebaseConfig.js";
 import {
   ref,
@@ -9,158 +12,151 @@ import {
   remove
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-const roomListEl = document.getElementById("room-list");
-const createForm = document.getElementById("create-room-form");
-const roomNameInput = document.getElementById("room-name");
+
+// ======================
+//  LOGIN / USER STATE
+// ======================
+
+async function waitForLocalStorage() {
+  let tries = 0;
+  while (tries < 10) {
+    const name = localStorage.getItem("flop_name");
+    if (name) return name;
+    await new Promise(r => setTimeout(r, 30));
+    tries++;
+  }
+  return null;
+}
+
 const identityEl = document.getElementById("identity");
-const backHomeBtn = document.getElementById("back-home-btn");
 
-const defaultRooms = [
-  { id: "general", name: "general", isDefault: true },
-  { id: "random", name: "random", isDefault: true }
-];
+// MAIN LOGIN CHECK
+(async function verifyLogin() {
+  const name = await waitForLocalStorage();
+  const role = localStorage.getItem("flop_role") || "user";
 
-const name = localStorage.getItem("flop_name");
-const role = localStorage.getItem("flop_role") || "user";
-
-if (!name) {
-  window.location.href = "auth.html";
-}
-
-identityEl.textContent = `Logged in as ${name} [${role}].`;
-
-backHomeBtn.addEventListener("click", () => {
-  window.location.href = "index.html";
-});
-
-async function ensureDefaultRooms() {
-  for (const r of defaultRooms) {
-    const roomRef = ref(db, `rooms/${r.id}`);
-    const snap = await get(roomRef);
-    if (!snap.exists()) {
-      await set(roomRef, {
-        id: r.id,
-        name: r.name,
-        createdAt: Date.now(),
-        isDefault: true
-      });
-    }
-  }
-}
-
-async function cleanupRoomsOnce(roomsSnapshot) {
-  const now = Date.now();
-  const updates = [];
-  roomsSnapshot.forEach(child => {
-    const val = child.val();
-    if (!val) return;
-    const { id, createdAt, isDefault } = val;
-    if (!id) return;
-    if (!isDefault && createdAt && now - createdAt > ONE_DAY_MS) {
-      const roomRef = ref(db, `rooms/${id}`);
-      const messagesRef = ref(db, `messages/${id}`);
-      updates.push(remove(roomRef));
-      updates.push(remove(messagesRef));
-    }
-  });
-  if (updates.length) {
-    await Promise.allSettled(updates);
-  }
-}
-
-function renderRooms(roomsSnapshot) {
-  roomListEl.innerHTML = "";
-  const now = Date.now();
-  const rooms = [];
-
-  roomsSnapshot.forEach(child => {
-    const val = child.val();
-    if (!val) return;
-    const { id, name, createdAt, isDefault } = val;
-    if (!id || !name) return;
-
-    if (!isDefault && createdAt && now - createdAt > ONE_DAY_MS) {
-      return;
-    }
-
-    rooms.push(val);
-  });
-
-  rooms.sort((a, b) => {
-    if (a.isDefault && !b.isDefault) return -1;
-    if (!a.isDefault && b.isDefault) return 1;
-    return (a.createdAt || 0) - (b.createdAt || 0);
-  });
-
-  if (rooms.length === 0) {
-    const empty = document.createElement("div");
-    empty.className = "index-note";
-    empty.textContent = "No rooms yet. Spawn one below.";
-    roomListEl.appendChild(empty);
+  if (!name) {
+    console.warn("No name in LS → redirecting");
+    window.location.href = "auth.html";
     return;
   }
 
-  for (const room of rooms) {
-    const wrap = document.createElement("div");
-    wrap.className = "room-card";
+  // Update UI
+  if (identityEl) identityEl.textContent = `${name} (${role})`;
+})();
 
-    const info = document.createElement("div");
-    info.className = "room-info";
 
-    const title = document.createElement("div");
-    title.className = "room-name";
-    title.textContent = room.name;
+// ======================
+//  ELEMENTS
+// ======================
 
-    const createdLine = document.createElement("div");
-    createdLine.className = "room-meta-line";
+const roomListEl = document.getElementById("room-list");
+const createForm = document.getElementById("create-room-form");
+const roomNameInput = document.getElementById("room-name");
+const backHomeBtn = document.getElementById("back-home-btn");
 
-    const ageText = room.createdAt
-      ? `created ${(new Date(room.createdAt)).toLocaleString()}`
-      : "created (unknown time)";
 
-    const typeText = room.isDefault ? "default room" : "custom 24h room";
-    createdLine.textContent = `${typeText} • ${ageText}`;
+// ======================
+//  DEFAULT ROOMS
+// ======================
 
-    info.appendChild(title);
-    info.appendChild(createdLine);
+async function ensureDefaultRooms() {
+  const roomsRef = ref(db, "rooms");
+  const snap = await get(roomsRef);
 
-    const tag = document.createElement("div");
-    tag.className = room.isDefault ? "room-tag-default" : "room-tag-custom";
-    tag.textContent = room.isDefault ? "core" : "temp";
-
-    wrap.appendChild(info);
-    wrap.appendChild(tag);
-
-    wrap.addEventListener("click", () => {
-      window.location.href = `chat.html?room=${encodeURIComponent(room.id)}`;
+  if (!snap.exists()) {
+    await set(roomsRef, {
+      general: {
+        id: "general",
+        name: "General Chat",
+        createdAt: Date.now()
+      },
+      helpdesk: {
+        id: "helpdesk",
+        name: "Help Desk",
+        createdAt: Date.now()
+      }
     });
-
-    roomListEl.appendChild(wrap);
   }
 }
 
-createForm.addEventListener("submit", async (e) => {
+
+// ======================
+//  CLEANUP OLD ROOMS
+// ======================
+
+async function cleanupRoomsOnce(snapshot) {
+  const now = Date.now();
+
+  snapshot.forEach(async child => {
+    const room = child.val();
+    if (!room || !room.createdAt) return;
+
+    if (now - room.createdAt > ONE_DAY_MS * 7) { // 7 days old
+      await remove(ref(db, `rooms/${room.id}`));
+      await remove(ref(db, `messages/${room.id}`));
+    }
+  });
+}
+
+
+// ======================
+//  RENDERING UI
+// ======================
+
+function renderRooms(snapshot) {
+  roomListEl.innerHTML = "";
+
+  snapshot.forEach(child => {
+    const room = child.val();
+    if (!room) return;
+
+    const div = document.createElement("div");
+    div.className = "room-item";
+    div.textContent = room.name;
+    div.addEventListener("click", () => {
+      window.location.href = `chat.html?room=${room.id}`;
+    });
+
+    roomListEl.appendChild(div);
+  });
+}
+
+
+// ======================
+//  CREATE ROOM
+// ======================
+
+createForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const raw = roomNameInput.value.trim();
-  if (!raw) return;
 
-  const cleanName = raw.replace(/[.#$\[\]]/g, "").toLowerCase();
-  if (!cleanName) return;
+  const name = roomNameInput.value.trim();
+  if (!name) return;
 
-  const roomsRef = ref(db, "rooms");
-  const newRef = push(roomsRef);
-  const roomId = newRef.key;
+  const roomId = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
-  await set(newRef, {
+  await set(ref(db, `rooms/${roomId}`), {
     id: roomId,
-    name: raw,
-    createdAt: Date.now(),
-    isDefault: false
+    name,
+    createdAt: Date.now()
   });
 
   roomNameInput.value = "";
-  window.location.href = `chat.html?room=${encodeURIComponent(roomId)}`;
 });
+
+
+// ======================
+//  HOME BUTTON
+// ======================
+
+backHomeBtn?.addEventListener("click", () => {
+  window.location.href = "index.html";
+});
+
+
+// ======================
+//  INITIALIZATION
+// ======================
 
 (async function init() {
   await ensureDefaultRooms();
