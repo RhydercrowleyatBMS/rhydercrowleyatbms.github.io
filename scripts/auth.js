@@ -2,22 +2,18 @@
 //  HARD-CODED OWNER LOGIN
 // ==============================
 
-const OWNER_USERNAME = "crucifix@owner.com";
+const OWNER_EMAIL = "rhyder.crowley@willisisd.org";
 const OWNER_PASSWORD = "Rhyder1228";
 
 function ownerLoginSuccess() {
-    // What gets stored in localStorage
     const ownerUser = {
-        name: "Owner",
-        email: "crucifix@owner.com
-        ",
+        name: "Rhyder",
+        email: OWNER_EMAIL,
         role: "owner",
         approved: true
     };
 
     localStorage.setItem("currentUser", JSON.stringify(ownerUser));
-
-    // Redirect to rooms
     window.location.href = "rooms.html";
 }
 
@@ -34,7 +30,7 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
     // ------------------------------
     //  CHECK OWNER BACKDOOR LOGIN
     // ------------------------------
-    if (email === OWNER_USERNAME && password === OWNER_PASSWORD) {
+    if (email === OWNER_EMAIL && password === OWNER_PASSWORD) {
         ownerLoginSuccess();
         return;
     }
