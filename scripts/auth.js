@@ -2,11 +2,11 @@
 //  Firebase setup (module v9+)
 // ==============================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getDatabase, ref, set, push, get } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
 console.log("auth.js loaded");
 
-// Firebase config
+// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyAHKDJWehHiU_noBMf4w1PRV-uGM4tjS4s",
   authDomain: "chatroom-770b2.firebaseapp.com",
@@ -20,6 +20,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+
+// Helper: email → Firebase key
+function emailKey(email) {
+  return email.trim().toLowerCase().replace(/\./g, ",");
+}
 
 // ==============================
 //  OWNER BACKDOOR LOGIN
@@ -35,14 +40,17 @@ function ownerLoginSuccess() {
     approved: true
   };
 
-  localStorage.setItem("currentUser", JSON.stringify(ownerUser));
-  console.log("Owner login success — redirecting");
-  window.location.href = "rooms.html";
-}
+  const key = emailKey(OWNER_EMAIL);
 
-// Format email → Firebase key
-function emailKey(email) {
-  return email.trim().toLowerCase().replace(/\./g, ",");
+  // Store data the entire app expects
+  localStorage.setItem("currentUser", JSON.stringify(ownerUser));
+  localStorage.setItem("flop_name", ownerUser.name);
+  localStorage.setItem("flop_email", ownerUser.email);
+  localStorage.setItem("flop_role", ownerUser.role);
+  localStorage.setItem("flop_userKey", key);
+
+  console.log("OWNER LOGIN SUCCESS — redirecting");
+  window.location.href = "rooms.html";
 }
 
 // ==============================
@@ -62,29 +70,36 @@ document.getElementById("login-form")?.addEventListener("submit", async (e) => {
     return;
   }
 
-  // Normal login
+  // Normal login using Firebase DB
   const key = emailKey(email);
   const userRef = ref(db, `users/${key}`);
   const snap = await get(userRef);
 
   if (!snap.exists()) {
-    alert("Account not found.");
+    alert("Account not found. Ask Rhyder for approval.");
     return;
   }
 
   const user = snap.val();
 
-  if (user.password !== password) {
+  if (!user.password || user.password !== password) {
     alert("Incorrect password.");
     return;
   }
 
   if (!user.approved) {
-    alert("Your account is still pending approval.");
+    alert("Your account has not been approved yet.");
     return;
   }
 
+  // Store everything the rest of the site requires
   localStorage.setItem("currentUser", JSON.stringify(user));
+  localStorage.setItem("flop_name", user.name);
+  localStorage.setItem("flop_email", user.email);
+  localStorage.setItem("flop_role", user.role || "user");
+  localStorage.setItem("flop_userKey", key);
+
+  console.log("Login OK — redirecting");
   window.location.href = "rooms.html";
 });
 
@@ -100,13 +115,12 @@ document.getElementById("signup-form")?.addEventListener("submit", async (e) => 
   const reason = document.getElementById("signup-reason").value.trim();
 
   if (!email.endsWith("@willisisd.org")) {
-    alert("Must use your WILLIS ISD school email.");
+    alert("You must use your WILLISISD school email.");
     return;
   }
 
   const key = emailKey(email);
 
-  // Add to pending accounts
   await set(ref(db, `pendingAccounts/${key}`), {
     name,
     email,
@@ -117,12 +131,5 @@ document.getElementById("signup-form")?.addEventListener("submit", async (e) => 
   });
 
   document.getElementById("signup-message").textContent =
-    "Request submitted! A mod/owner must approve your account.";
-});
-
-// ==============================
-//  BUTTON: Go to rooms
-// ==============================
-document.getElementById("goto-rooms-btn")?.addEventListener("click", () => {
-  window.location.href = "rooms.html";
+    "Account request submitted. It will show up in the admin panel.";
 });
