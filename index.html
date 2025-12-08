@@ -17,21 +17,38 @@
         <div class="panel">
           <div class="panel-header">
             <h3 class="panel-title">LOG-IN TO BE SCENE</h3>
-            <p class="panel-meta">ENTER YOUR HAWT USER INFO</p>
+            <p class="panel-meta">ENTER UR HAWT USER INFO</p>
           </div>
 
-          <form>
-            <label for="username">♥ SCREEN NAME ♥</label>
-            <input id="username" type="text" placeholder="xX_ur_sn_Xx">
+          <!-- REAL LOGIN FORM THAT WORKS WITH FIREBASE -->
+          <form id="login-form">
 
-            <label for="password">♥ PASSWORD ♥</label>
-            <input id="password" type="password" placeholder="dont tell anyone >:O">
+            <label for="login-email">♥ SCHOOL EMAIL ♥</label>
+            <input 
+              id="login-email" 
+              type="text" 
+              placeholder="first.last@willisisd.org"
+              autocomplete="off"
+              required
+            >
+
+            <label for="login-password">♥ PASSWORD ♥</label>
+            <input 
+              id="login-password" 
+              type="password" 
+              placeholder="dont tell anyone >:O"
+              autocomplete="off"
+              required
+            >
 
             <button type="submit">SIGN IN</button>
           </form>
 
-          <div class="chat-footer-nav" style="text-align: center;">
-            <a href="rooms.html">Enter as Guest?</a>
+          <!-- GUEST MODE -->
+          <div class="chat-footer-nav" style="text-align: center; margin-top: 12px;">
+            <button id="guest-button" style="background:none;border:none;color:#9af;text-decoration:underline;cursor:pointer;font-size:14px;">
+              Enter as Guest?
+            </button>
           </div>
         </div>
 
@@ -46,5 +63,28 @@
       </div>
     </footer>
   </div>
+
+  <!-- LOAD FIREBASE AUTH -->
+  <script type="module" src="scripts/auth.js"></script>
+
+  <!-- SIMPLE GUEST LOGIN -->
+  <script>
+    document.getElementById("guest-button").addEventListener("click", () => {
+      const guestUser = {
+        name: "Guest",
+        email: "guest@floptropica.local",
+        role: "guest",
+        approved: true
+      };
+
+      localStorage.setItem("currentUser", JSON.stringify(guestUser));
+      localStorage.setItem("flop_name", "Guest");
+      localStorage.setItem("flop_email", "guest@floptropica.local");
+      localStorage.setItem("flop_role", "guest");
+      localStorage.setItem("flop_userKey", "guest");
+
+      window.location.href = "rooms.html";
+    });
+  </script>
 </body>
 </html>
