@@ -2,42 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Floptropica // Entry</title>
+  <title>Floptropica // Home</title>
   <link rel="stylesheet" href="styles/glitch.css">
 </head>
 <body>
   <div class="shell">
     <main class="main-content">
       <div class="max-width">
+        <div class="app-title">Floptropica</div>
+        <div class="app-subtitle">private willisisd chat system</div>
+
+        <!-- MAIN BUTTON PANEL -->
         <div class="panel">
           <div class="panel-header">
-            <div class="panel-title">Floptropica // gateway</div>
-            <div class="panel-meta">build 00x1</div>
+            <div class="panel-title">welcome</div>
+            <div class="panel-meta">choose an option</div>
           </div>
 
-          <div class="index-grid">
-            <form id="entry-form">
-              <label for="name">Display name</label>
-              <input id="name" type="text" maxlength="40" autocomplete="off" required>
+          <div class="index-note" id="user-status"></div>
 
-              <label for="admin-code">Admin code (optional)</label>
-              <input
-                id="admin-code"
-                type="password"
-                maxlength="16"
-                autocomplete="off"
-                placeholder="leave blank if you're not admin"
-              >
-
-              <button type="submit">Enter Floptropica</button>
-            </form>
-
-            <div class="index-note">
-              This is a tiny, chaotic chat thing. Your name is visible to the room, but nothing is verified or secure.
-              If you don't know the admin code, just leave it blank — you'll join as a regular user.
-            </div>
-          </div>
+          <button id="login-btn" type="button">Log In</button>
+          <button id="create-btn" type="button">Create Account</button>
+          <button id="rooms-btn" type="button">Enter Chat Rooms</button>
+          <button id="admin-btn" type="button" style="display:none;">Admin Panel</button>
         </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">guest mode</div>
+            <div class="panel-meta">temporary access</div>
+          </div>
+          <button id="guest-btn" type="button">Continue as Guest</button>
+          <div class="index-note">Guests expire after 48 hours.</div>
+        </div>
+
       </div>
     </main>
 
@@ -51,25 +49,55 @@
   </div>
 
   <script type="module">
-    import { ADMIN_CODE } from "./scripts/firebaseConfig.js";
+    const loginBtn = document.getElementById("login-btn");
+    const createBtn = document.getElementById("create-btn");
+    const roomsBtn = document.getElementById("rooms-btn");
+    const adminBtn = document.getElementById("admin-btn");
+    const guestBtn = document.getElementById("guest-btn");
+    const userStatus = document.getElementById("user-status");
 
-    const form = document.getElementById("entry-form");
-    const nameInput = document.getElementById("name");
-    const adminInput = document.getElementById("admin-code");
+    const name = localStorage.getItem("flop_name");
+    const role = localStorage.getItem("flop_role");
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const name = nameInput.value.trim();
-      const adminCode = adminInput.value.trim();
+    if (name) {
+      userStatus.textContent = `Logged in as ${name} [${role}]`;
+      roomsBtn.style.display = "inline-block";
 
-      if (!name) return;
+      if (["mod", "owner"].includes(role)) {
+        adminBtn.style.display = "inline-block";
+      }
+    } else {
+      userStatus.textContent = "Not logged in.";
+      roomsBtn.style.display = "none";
+      adminBtn.style.display = "none";
+    }
 
-      const isAdmin = adminCode === ADMIN_CODE;
+    loginBtn.addEventListener("click", () => {
+      window.location.href = "auth.html";
+    });
 
-      localStorage.setItem("flop_name", name);
-      localStorage.setItem("flop_isAdmin", isAdmin ? "true" : "false");
+    createBtn.addEventListener("click", () => {
+      window.location.href = "auth.html";
+    });
 
+    roomsBtn.addEventListener("click", () => {
+      if (!name) {
+        alert("You must log in first.");
+        return;
+      }
       window.location.href = "rooms.html";
+    });
+
+    adminBtn.addEventListener("click", () => {
+      if (!name) {
+        alert("Not logged in.");
+        return;
+      }
+      window.location.href = "admin.html";
+    });
+
+    guestBtn.addEventListener("click", () => {
+      window.location.href = "auth.html";
     });
   </script>
 </body>
