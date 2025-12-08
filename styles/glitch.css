@@ -1,10 +1,10 @@
 /* ===================================================
-   FLOPTROPICA Y2K / SCENE / MYSPACE THEME
-   Full-site theme for index, auth, rooms, chat, admin
+   FLOPTROPICA — CLEAN Y2K / SCENE THEME (NO EMOJIS)
    =================================================== */
 
-/* Fonts (scene-style: messy title + clean body) */
-@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&family=Inter:wght@300;400;600;700&display=swap');
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
 
 /* Reset */
 * {
@@ -13,423 +13,287 @@
   box-sizing: border-box;
 }
 
-/* Base */
 html, body {
   width: 100%;
   height: 100%;
-  background: #020008;
-  color: #fdfcff;
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Inter", sans-serif;
+  background: #06030a;
+  color: white;
 }
 
-/* Scene / MySpace background */
+/* Background Glow */
 body {
   background:
-    radial-gradient(circle at top left, rgba(255, 0, 153, 0.45), transparent 60%),
-    radial-gradient(circle at bottom right, rgba(0, 255, 255, 0.35), transparent 60%),
-    linear-gradient(135deg, #05000d, #050013 45%, #090021 70%, #05000d);
+    radial-gradient(circle at top left, rgba(255,0,170,0.25), transparent 60%),
+    radial-gradient(circle at bottom right, rgba(0,240,255,0.22), transparent 60%),
+    #05020a;
   background-attachment: fixed;
 }
 
-/* Noise overlay */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.16;
-  mix-blend-mode: soft-light;
-  background-image:
-    url("https://grainy-gradients.vercel.app/noise.svg");
-  z-index: 0;
-}
-
-/* Layout shell */
+/* Shell */
 .shell {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 1;
 }
 
+/* Content */
 .main-content {
   flex: 1;
-  padding: 30px 16px 40px;
+  padding: 40px 20px;
   display: flex;
   justify-content: center;
+  align-items: start;
 }
 
 .max-width {
   width: 100%;
-  max-width: 720px;
+  max-width: 620px;
 }
 
-/* App title / subtitle */
+/* ===============================
+   TITLES
+   =============================== */
+
 .app-title {
   font-family: "Rock Salt", cursive;
-  font-size: 30px;
+  font-size: 32px;
   text-align: center;
-  letter-spacing: 1.5px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   text-shadow:
-    0 0 4px rgba(255, 255, 255, 0.8),
-    0 0 12px rgba(255, 0, 170, 0.8),
-    0 0 22px rgba(0, 210, 255, 0.7);
+    0 0 6px rgba(255,255,255,0.8),
+    0 0 14px rgba(255,0,160,0.8),
+    0 0 22px rgba(0,255,255,0.7);
 }
 
 .app-subtitle {
   text-align: center;
-  font-size: 13px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.85;
-  margin-bottom: 18px;
-  color: #f5e7ff;
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 22px;
 }
 
-/* Panels (MySpace profile box vibes) */
+/* ===============================
+   PANELS (Y2K / Scene Glass Box)
+   =============================== */
+
 .panel {
-  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.09), rgba(7, 0, 26, 0.96));
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(7px);
+  border-radius: 14px;
+  padding: 26px 24px;
   box-shadow:
-    0 0 0 1px rgba(255, 0, 153, 0.4),
-    0 14px 40px rgba(0, 0, 0, 0.85);
-  padding: 22px 20px 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Faux MySpace top bar sticker */
-.panel::before {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  background:
-    repeating-linear-gradient(
-      -45deg,
-      rgba(255, 0, 153, 0.16),
-      rgba(255, 0, 153, 0.16) 4px,
-      transparent 4px,
-      transparent 8px
-    );
-  opacity: 0.35;
-  mix-blend-mode: soft-light;
-  pointer-events: none;
+    0 0 0 1px rgba(255,0,160,0.4),
+    0 12px 34px rgba(0,0,0,0.7);
 }
 
 .panel-header {
-  position: relative;
   margin-bottom: 18px;
 }
 
 .panel-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
-  text-transform: lowercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 4px;
 }
 
 .panel-meta {
   font-size: 12px;
-  opacity: 0.8;
+  opacity: 0.75;
 }
 
-/* Little divider bar */
+/* Divider under header */
 .panel-header::after {
   content: "";
   display: block;
-  margin-top: 10px;
   height: 1px;
-  width: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 0, 160, 0.4),
-    rgba(255, 255, 255, 0.6),
-    rgba(0, 255, 204, 0.4)
+  margin-top: 10px;
+  background: linear-gradient(90deg,
+    rgba(255,0,160,0.5),
+    rgba(255,255,255,0.6),
+    rgba(0,255,255,0.5)
   );
 }
 
-/* Labels */
+/* ===============================
+   FORMS / INPUTS
+   =============================== */
+
 label {
   display: block;
   font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  opacity: 0.86;
-  margin-top: 4px;
+  opacity: 0.85;
+  margin-top: 10px;
+  margin-bottom: 6px;
 }
 
-/* Inputs / textareas / selects */
-input,
-textarea,
-select {
+input, textarea, select {
   width: 100%;
-  padding: 10px 11px;
-  margin-top: 6px;
-  margin-bottom: 14px;
-  border-radius: 9px;
-  border: 1px solid rgba(244, 234, 255, 0.18);
-  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.09), rgba(10, 3, 28, 0.98));
-  color: #fdfbff;
-  font-size: 14px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  font-size: 15px;
   outline: none;
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.03),
-    0 0 12px rgba(0, 0, 0, 0.8) inset;
+  margin-bottom: 18px;
 }
 
-input::placeholder,
-textarea::placeholder {
-  color: rgba(228, 216, 255, 0.5);
+input::placeholder {
+  opacity: 0.55;
 }
 
-/* Focus glow */
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: rgba(0, 255, 204, 0.7);
-  box-shadow:
-    0 0 0 1px rgba(0, 255, 204, 0.7),
-    0 0 12px rgba(0, 255, 204, 0.65);
+/* focus glow */
+input:focus, textarea:focus, select:focus {
+  border: 1px solid rgba(0,255,255,0.7);
+  box-shadow: 0 0 12px rgba(0,255,255,0.6);
 }
 
-/* Buttons (scene neon) */
+/* ===============================
+   BUTTONS — Neon Y2K Glow
+   =============================== */
+
 button {
   width: 100%;
-  padding: 11px 13px;
-  margin-top: 6px;
+  padding: 12px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 0, 170, 0.95),
-    rgba(0, 204, 255, 0.92)
+  border: 1px solid rgba(255,255,255,0.18);
+  background: linear-gradient(130deg,
+    rgba(255,0,170,0.9),
+    rgba(0,220,255,0.9)
   );
-  color: #ffffff;
-  font-size: 14px;
+  color: white;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: .04em;
   cursor: pointer;
+  transition: 0.15s;
+  margin-top: 6px;
   box-shadow:
-    0 0 14px rgba(255, 0, 170, 0.68),
-    0 8px 18px rgba(0, 0, 0, 0.85);
-  transition:
-    transform 0.1s ease,
-    box-shadow 0.1s ease,
-    filter 0.1s ease;
+    0 0 12px rgba(255,0,160,0.5),
+    0 8px 18px rgba(0,0,0,0.7);
 }
 
 button:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.06);
+  filter: brightness(1.08);
+  transform: translateY(-2px);
   box-shadow:
-    0 0 18px rgba(255, 0, 170, 0.9),
-    0 12px 26px rgba(0, 0, 0, 0.9);
+    0 0 18px rgba(255,0,160,0.8),
+    0 12px 28px rgba(0,0,0,0.9);
 }
 
-button:active {
-  transform: translateY(1px);
-  box-shadow:
-    0 0 10px rgba(255, 0, 170, 0.7),
-    0 6px 14px rgba(0, 0, 0, 0.9);
-}
+/* ===============================
+   ROOM LIST
+   =============================== */
 
-/* Links / footer */
-.site-footer {
-  padding: 12px 0 20px;
-  text-align: center;
-  font-size: 12px;
-  opacity: 0.82;
-}
+#room-list { margin-top: 10px; }
 
-.footer-inner {
-  display: inline-flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.footer-link {
-  color: #9fd5ff;
-  text-decoration: none;
-}
-
-.footer-link:hover {
-  text-decoration: underline;
-}
-
-.brand {
-  color: #fbe9ff;
-}
-
-.divider {
-  opacity: 0.4;
-}
-
-/* Identity text */
-#identity,
-#admin-identity {
-  font-weight: 600;
-  color: #f9d7ff;
-}
-
-/* ROOM LIST STYLING */
-#room-list {
-  margin-top: 6px;
-}
-
-/* Individual room item (MySpace style box) */
 .room-item {
-  display: block;
-  width: 100%;
-  padding: 12px 12px 11px 14px;
-  margin-bottom: 10px;
-
-  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), rgba(8, 2, 28, 0.98));
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-left: 3px solid rgba(255,0,160,0.8);
+  padding: 15px;
+  margin-bottom: 12px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow:
-    0 0 0 1px rgba(255, 0, 160, 0.35),
-    0 6px 14px rgba(0, 0, 0, 0.7);
-
-  font-size: 14px;
-  letter-spacing: 0.03em;
-  text-transform: lowercase;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition:
-    transform 0.1s ease,
-    box-shadow 0.1s ease,
-    background 0.12s ease;
-}
-
-/* Small "scene bar" on the left */
-.room-item::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: -10%;
-  bottom: -10%;
-  width: 3px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 0, 170, 0.9),
-    rgba(0, 255, 204, 0.9)
-  );
-}
-
-/* Scanline-style overlay */
-.room-item::after {
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.04) 1px,
-    transparent 1px
-  );
-  background-size: 100% 3px;
-  opacity: 0.4;
+  transition: 0.12s;
+  font-size: 15px;
+  letter-spacing: 0.02em;
 }
 
 .room-item:hover {
-  transform: translateY(-1px);
-  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.14), rgba(8, 0, 32, 0.98));
-  box-shadow:
-    0 0 0 1px rgba(0, 255, 204, 0.6),
-    0 10px 24px rgba(0, 0, 0, 0.9);
+  background: rgba(255,255,255,0.14);
+  border-left-color: rgba(0,255,255,0.9);
+  transform: translateY(-2px);
 }
 
-/* CHAT MESSAGES */
+/* ===============================
+   CHAT PAGE
+   =============================== */
+
+.chat-header {
+  text-align: center;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.chat-header h2 {
+  font-family: "Rock Salt", cursive;
+  font-size: 22px;
+  text-shadow:
+    0 0 9px rgba(255,0,160,0.8),
+    0 0 20px rgba(0,255,255,0.7);
+}
+
 #messages {
   max-height: 380px;
   overflow-y: auto;
-  padding-right: 4px;
-  margin-bottom: 16px;
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  margin-bottom: 14px;
 }
 
-/* Scrollbar for messages */
+/* Scrollbar */
 #messages::-webkit-scrollbar {
   width: 6px;
 }
-#messages::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.04);
-}
 #messages::-webkit-scrollbar-thumb {
-  background: rgba(255, 0, 160, 0.65);
-  border-radius: 999px;
+  background: rgba(255,0,160,0.7);
+  border-radius: 10px;
 }
 
-/* Individual message bubble */
 .message {
-  padding: 10px 12px;
-  margin-bottom: 8px;
-  border-radius: 10px;
-  background: rgba(1, 0, 12, 0.87);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.75);
-  font-size: 13px;
-}
-
-/* Pending items in admin panel */
-.pending-item {
-  padding: 11px 12px 12px;
+  padding: 12px;
   margin-bottom: 10px;
+  background: rgba(15,0,45,0.8);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 10px;
-  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), rgba(10, 0, 30, 0.98));
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow:
-    0 0 0 1px rgba(0, 255, 204, 0.4),
-    0 8px 18px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.7);
+  font-size: 14px;
 }
 
-.pending-item h4 {
-  font-size: 15px;
-  margin-bottom: 4px;
+/* Chat Input */
+.chat-input-box {
+  display: flex;
+  gap: 10px;
 }
 
-.pending-item p {
-  font-size: 12px;
-  margin-bottom: 2px;
+.chat-input-box input {
+  margin: 0;
 }
 
-/* Approve / deny buttons */
-.approve {
-  background: linear-gradient(135deg, #32d45c, #81ffb3);
-  border: none;
+.chat-footer-nav {
+  text-align: center;
+  margin-top: 22px;
 }
 
-.deny {
-  background: linear-gradient(135deg, #ff3b5f, #ff7a8a);
-  border: none;
+.chat-footer-nav a {
+  color: #a9dbff;
+  text-decoration: none;
 }
 
-/* Admin-specific sections */
-.admin-section {
-  margin-top: 18px;
+/* ===============================
+   ADMIN PANEL
+   =============================== */
+
+.pending-item {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
 }
 
-/* Manual form status */
-#manual-message {
-  font-size: 12px;
-}
+/* ===============================
+   FOOTER
+   =============================== */
 
-/* Locked admin view */
-#admin-locked {
-  font-size: 16px;
-}
-
-/* Responsive */
-@media (max-width: 520px) {
-  .panel {
-    padding: 18px 14px 16px;
-  }
-  .app-title {
-    font-size: 26px;
-  }
+.site-footer {
+  padding: 10px 0 20px;
+  text-align: center;
+  opacity: 0.75;
+  font-size: 13px;
 }
