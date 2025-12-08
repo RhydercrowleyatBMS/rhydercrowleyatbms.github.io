@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Floptropica // Login & Signup</title>
+  <link rel="stylesheet" href="styles/glitch.css">
+</head>
+<body>
+  <div class="shell">
+    <main class="main-content">
+      <div class="max-width">
+        <div class="app-title">Floptropica</div>
+        <div class="app-subtitle">private school chat • willisisd only</div>
+
+        <!-- LOGIN PANEL -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">login</div>
+            <div class="panel-meta">approved accounts only</div>
+          </div>
+
+          <form id="login-form">
+            <label for="login-email">School email</label>
+            <input id="login-email" type="text" autocomplete="off" placeholder="first.last@willisisd.org" required>
+
+            <label for="login-password">Password</label>
+            <input id="login-password" type="password" autocomplete="off" required>
+
+            <button type="submit">Log in</button>
+          </form>
+
+          <div id="login-message" class="index-note"></div>
+        </div>
+
+        <!-- CREATE ACCOUNT PANEL -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">create account</div>
+            <div class="panel-meta">requires approval by mods/owner</div>
+          </div>
+
+          <form id="signup-form">
+            <label for="signup-name">Real name</label>
+            <input id="signup-name" type="text" autocomplete="off" placeholder="First Last" required>
+
+            <label for="signup-email">School email</label>
+            <input id="signup-email" type="text" autocomplete="off" placeholder="first.last@willisisd.org" required>
+
+            <label for="signup-password">Password (NOT your school password)</label>
+            <input id="signup-password" type="password" autocomplete="off" required>
+
+            <label for="signup-reason">Why do you want an account?</label>
+            <input id="signup-reason" type="text" autocomplete="off" placeholder="Short reason, e.g. 'chat with friends'" required>
+
+            <button type="submit">Submit account request</button>
+          </form>
+
+          <div class="index-note">
+            Your account will be pending until a mod/owner approves it.
+            Use your real name and school email, or it will be denied.
+          </div>
+
+          <div id="signup-message" class="index-note"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">already logged in?</div>
+            <div class="panel-meta">jump to rooms</div>
+          </div>
+          <button id="goto-rooms-btn" type="button">Go to rooms</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span class="brand">© 2025 Floptropica</span>
+        <span class="divider">•</span>
+        <a href="privacy.html" class="footer-link">Privacy Policy</a>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="scripts/auth.js"></script>
+</body>
+</html>
