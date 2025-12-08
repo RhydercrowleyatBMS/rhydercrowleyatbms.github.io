@@ -2,14 +2,15 @@
 //  HARD-CODED OWNER LOGIN
 // ==============================
 
-const OWNER_USERNAME = "crucifix";
+const OWNER_USERNAME = "crucifix@owner.com";
 const OWNER_PASSWORD = "Rhyder1228";
 
 function ownerLoginSuccess() {
     // What gets stored in localStorage
     const ownerUser = {
         name: "Owner",
-        email: "crucifix",
+        email: "crucifix@owner.com
+        ",
         role: "owner",
         approved: true
     };
