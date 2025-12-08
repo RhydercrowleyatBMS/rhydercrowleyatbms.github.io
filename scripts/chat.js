@@ -6,6 +6,7 @@ import {
   push,
   set,
   onChildAdded,
+  onChildRemoved,
   remove
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
@@ -13,7 +14,12 @@ const params = new URLSearchParams(window.location.search);
 const roomId = params.get("room");
 
 const name = localStorage.getItem("flop_name");
-const isAdmin = localStorage.getItem("flop_isAdmin") === "true";
+const role = localStorage.getItem("flop_role") || "user";
+
+const isOwner = role === "owner";
+const isMod = role === "mod" || isOwner;
+const isTrial = role === "trial";
+const canAdmin = isOwner || isMod || isTrial;
 
 const roomNameEl = document.getElementById("chat-room-name");
 const roomMetaEl = document.getElementById("chat-room-meta");
@@ -22,19 +28,20 @@ const inputEl = document.getElementById("message-input");
 const sendBtn = document.getElementById("send-button");
 const adminBarEl = document.getElementById("admin-bar");
 const clearBtn = document.getElementById("clear-messages-btn");
-const deleteRoomBtn = document.getElementById("delete-room-btn");
 
 if (!roomId) {
   window.location.href = "rooms.html";
 }
 
 if (!name) {
-  window.location.href = "index.html";
+  window.location.href = "auth.html";
 }
 
-let isDefaultRoom = false;
+if (canAdmin) {
+  adminBarEl.style.display = "flex";
+}
 
-// Load room info
+// load room info
 (async function loadRoom() {
   try {
     const roomRef = ref(db, `rooms/${roomId}`);
@@ -47,29 +54,19 @@ let isDefaultRoom = false;
       return;
     }
     const data = snap.val();
-    isDefaultRoom = !!data.isDefault;
 
     roomNameEl.textContent = `room: ${data.name || roomId}`;
     roomMetaEl.textContent = data.isDefault
       ? "default room • does not auto-delete"
       : "custom room • auto-clears after 24 hours";
-
-    if (isAdmin) {
-      adminBarEl.style.display = "flex";
-      if (isDefaultRoom) {
-        deleteRoomBtn.disabled = true;
-      }
-    }
   } catch (err) {
     roomNameEl.textContent = "room: error loading";
     roomMetaEl.textContent = "something glitched.";
   }
 })();
 
-// Messages reference
 const messagesRef = ref(db, `messages/${roomId}`);
 
-// Clean up old messages (>24h)
 async function cleanupOldMessages() {
   try {
     const snap = await get(messagesRef);
@@ -88,11 +85,31 @@ async function cleanupOldMessages() {
       await Promise.allSettled(removals);
     }
   } catch (err) {
-    // ignore cleanup errors
+    // ignore
   }
 }
 
-// Render a message DOM node
+function isMessageAllowed(rawText, isOwnerBypass = false) {
+  const text = rawText.toLowerCase();
+  if (isOwnerBypass && isOwner) return true;
+
+  const bannedWords = [
+    "N_SLUR_GOES_HERE",
+    "F_SLUR_GOES_HERE",
+    "R_SLUR_GOES_HERE"
+    // add more variants if you want
+  ];
+
+  for (const bad of bannedWords) {
+    if (!bad) continue;
+    if (text.includes(bad.toLowerCase())) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 function renderMessage(key, data) {
   const wrap = document.createElement("div");
   wrap.className = "message";
@@ -104,17 +121,17 @@ function renderMessage(key, data) {
   const left = document.createElement("div");
   const nameSpan = document.createElement("span");
   nameSpan.className = "message-name";
-  if (data.isAdmin) {
+  if (data.role === "owner" || data.role === "mod" || data.isAdmin) {
     nameSpan.classList.add("message-name-admin");
   }
   nameSpan.textContent = data.name || "anon";
 
   left.appendChild(nameSpan);
 
-  if (data.isAdmin) {
+  if (data.role === "owner" || data.role === "mod") {
     const badge = document.createElement("span");
     badge.className = "message-admin-badge";
-    badge.textContent = "ADMIN";
+    badge.textContent = data.role.toUpperCase();
     left.appendChild(badge);
   }
 
@@ -137,7 +154,8 @@ function renderMessage(key, data) {
   wrap.appendChild(header);
   wrap.appendChild(body);
 
-  if (isAdmin) {
+  const isOwnMessage = (data.name === name);
+  if (isOwnMessage || canAdmin) {
     const delBtn = document.createElement("button");
     delBtn.className = "message-delete";
     delBtn.type = "button";
@@ -153,7 +171,6 @@ function renderMessage(key, data) {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-// Listen for new messages
 onChildAdded(messagesRef, (snapshot) => {
   const key = snapshot.key;
   const val = snapshot.val();
@@ -168,17 +185,27 @@ onChildAdded(messagesRef, (snapshot) => {
   renderMessage(key, val);
 });
 
-// Send a message
+onChildRemoved(messagesRef, (snapshot) => {
+  const key = snapshot.key;
+  const node = messagesEl.querySelector(`[data-key="${key}"]`);
+  if (node) node.remove();
+});
+
 async function sendMessage() {
   const text = inputEl.value.trim();
   if (!text) return;
+
+  if (!isMessageAllowed(text, false)) {
+    alert("That message contains blocked language and cannot be sent.");
+    return;
+  }
 
   const newRef = push(messagesRef);
   await set(newRef, {
     name,
     text,
     createdAt: Date.now(),
-    isAdmin
+    role
   });
 
   inputEl.value = "";
@@ -193,25 +220,15 @@ inputEl.addEventListener("keydown", (e) => {
   }
 });
 
-// Admin: clear all messages
 clearBtn.addEventListener("click", async () => {
-  if (!isAdmin) return;
+  if (!isOwner) {
+    alert("Only the owner can clear all messages.");
+    return;
+  }
   const ok = confirm("Clear all messages in this room?");
   if (!ok) return;
   await remove(messagesRef);
   messagesEl.innerHTML = "";
 });
 
-// Admin: delete room (only if custom)
-deleteRoomBtn.addEventListener("click", async () => {
-  if (!isAdmin) return;
-  if (isDefaultRoom) return;
-  const ok = confirm("Delete this room and all of its messages?");
-  if (!ok) return;
-  await remove(ref(db, `rooms/${roomId}`));
-  await remove(messagesRef);
-  window.location.href = "rooms.html";
-});
-
-// Initial cleanup
 cleanupOldMessages();
