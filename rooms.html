@@ -65,4 +65,20 @@
 
   <script type="module" src="scripts/rooms.js"></script>
 </body>
+<script>
+  // Show admin button only for owner/admin
+  const role = localStorage.getItem("flop_role");
+
+  const btn = document.getElementById("admin-panel-btn");
+
+  if (role === "owner" || role === "admin") {
+    btn.style.display = "block";
+    btn.onclick = () => {
+      window.location.href = "admin.html";
+    };
+  } else {
+    btn.style.display = "none";
+  }
+</script>
 </html>
+
