@@ -9,6 +9,7 @@ export const firebaseConfig = {
   measurementId: "G-DLFYMPHE9F"
 };
 
+// 2) Do not change below this unless you know what you’re doing
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getDatabase } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
@@ -16,4 +17,3 @@ export const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
 
 export const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-export const ADMIN_CODE = "1228";
