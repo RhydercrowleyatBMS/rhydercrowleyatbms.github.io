@@ -12,7 +12,6 @@
         <div class="app-title">Floptropica</div>
         <div class="app-subtitle">private willisisd chat system</div>
 
-        <!-- MAIN BUTTON PANEL -->
         <div class="panel">
           <div class="panel-header">
             <div class="panel-title">welcome</div>
@@ -25,15 +24,16 @@
           <button id="create-btn" type="button">Create Account</button>
           <button id="rooms-btn" type="button">Enter Chat Rooms</button>
           <button id="admin-btn" type="button" style="display:none;">Admin Panel</button>
+          <button id="logout-btn" type="button">Log Out</button>
         </div>
 
         <div class="panel">
           <div class="panel-header">
             <div class="panel-title">guest mode</div>
-            <div class="panel-meta">temporary access</div>
+            <div class="panel-meta">temporary access (future feature)</div>
           </div>
-          <button id="guest-btn" type="button">Continue as Guest</button>
-          <div class="index-note">Guests expire after 48 hours.</div>
+          <button id="guest-btn" type="button">Continue via auth page</button>
+          <div class="index-note">Guests later, for now use Create Account.</div>
         </div>
 
       </div>
@@ -54,10 +54,11 @@
     const roomsBtn = document.getElementById("rooms-btn");
     const adminBtn = document.getElementById("admin-btn");
     const guestBtn = document.getElementById("guest-btn");
+    const logoutBtn = document.getElementById("logout-btn");
     const userStatus = document.getElementById("user-status");
 
     const name = localStorage.getItem("flop_name");
-    const role = localStorage.getItem("flop_role");
+    const role = localStorage.getItem("flop_role") || "user";
 
     if (name) {
       userStatus.textContent = `Logged in as ${name} [${role}]`;
@@ -98,6 +99,16 @@
 
     guestBtn.addEventListener("click", () => {
       window.location.href = "auth.html";
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("flop_email");
+      localStorage.removeItem("flop_name");
+      localStorage.removeItem("flop_role");
+      localStorage.removeItem("flop_userKey");
+      userStatus.textContent = "Logged out.";
+      roomsBtn.style.display = "none";
+      adminBtn.style.display = "none";
     });
   </script>
 </body>
