@@ -4,53 +4,76 @@
   <meta charset="UTF-8">
   <title>Floptropica // Rooms</title>
   <link rel="stylesheet" href="styles/glitch.css">
+
+  <style>
+    /* Extra styling for room list */
+
+    .room-item {
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .room-item:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    #admin-panel-btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    #admin-panel-btn:hover {
+      background: rgba(255,255,255,0.15);
+      box-shadow: 0 0 10px rgba(150,180,255,0.3);
+    }
+
+  </style>
 </head>
+
 <body>
   <div class="shell">
     <main class="main-content">
       <div class="max-width">
-        <div class="app-title">Floptropica</div>
-        <div class="app-subtitle">select a room // or spawn a temporary one</div>
+
+        <h1 class="app-title">Floptropica</h1>
+        <p class="app-subtitle">Select a Room</p>
 
         <div class="panel">
           <div class="panel-header">
-            <div class="panel-title">identity</div>
-            <div class="panel-meta">current user</div>
-          </div>
-          <div id="identity" class="index-note"></div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title">rooms</div>
-            <div class="panel-meta">default + custom (24h)</div>
-          </div>
-          <div id="room-list" class="room-list"></div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title">create custom room</div>
-            <div class="panel-meta">auto-deletes 24h after birth</div>
+            <div class="panel-title">Rooms</div>
+            <div class="panel-meta">Hello, <span id="identity"></span></div>
           </div>
 
-          <form id="create-room-form">
-            <label for="room-name">Room name</label>
-            <input
-              id="room-name"
-              type="text"
-              maxlength="40"
-              autocomplete="off"
-              placeholder="e.g. horror-core, music, vent"
-              required
-            >
-            <button type="submit">Spawn room</button>
+          <!-- ROOM LIST -->
+          <div id="room-list"></div>
+
+          <!-- CREATE ROOM -->
+          <form id="create-room-form" style="margin-top:20px;">
+            <label for="room-name">Create New Room</label>
+            <input type="text" id="room-name" placeholder="Room Name" autocomplete="off">
+            <button type="submit">Create</button>
           </form>
+
+          <!-- ADMIN PANEL BUTTON -->
+          <button id="admin-panel-btn" style="display:none;">Admin Panel</button>
+
+          <!-- HOME BUTTON -->
+          <button id="back-home-btn" style="margin-top:15px;">Home</button>
+
         </div>
 
-        <div class="panel">
-          <button type="button" id="back-home-btn">← Back to home</button>
-        </div>
       </div>
     </main>
 
@@ -63,22 +86,21 @@
     </footer>
   </div>
 
+  <!-- ROOMS SCRIPT -->
   <script type="module" src="scripts/rooms.js"></script>
+
+  <!-- ADMIN BUTTON LOGIC -->
+  <script>
+    const role = localStorage.getItem("flop_role");
+    const adminBtn = document.getElementById("admin-panel-btn");
+
+    if (role === "owner" || role === "admin") {
+      adminBtn.style.display = "block";
+      adminBtn.onclick = () => {
+        window.location.href = "admin.html";
+      };
+    }
+  </script>
+
 </body>
-<script>
-  // Show admin button only for owner/admin
-  const role = localStorage.getItem("flop_role");
-
-  const btn = document.getElementById("admin-panel-btn");
-
-  if (role === "owner" || role === "admin") {
-    btn.style.display = "block";
-    btn.onclick = () => {
-      window.location.href = "admin.html";
-    };
-  } else {
-    btn.style.display = "none";
-  }
-</script>
 </html>
-
