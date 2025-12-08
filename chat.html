@@ -2,8 +2,158 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>★ R A W R X D // C H A T ★</title>
+  <title>★ R A W R // C H A T ★</title>
   <link rel="stylesheet" href="styles/glitch.css">
+
+  <!-- Chat-specific emo/punk overrides -->
+  <style>
+    .chat-panel-emo {
+      background: #050505;
+      border: 3px solid #00ff66;
+      box-shadow:
+        0 0 0 1px #000,
+        6px 6px 0 #00ff66,
+        10px 10px 0 #ffffff;
+    }
+
+    .chat-header-emo {
+      border-bottom: 2px dashed #00ff66;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+
+    .chat-header-emo h2 {
+      font-family: "VT323", monospace;
+      font-size: 24px;
+      color: #00ff66;
+      text-shadow: 0 0 6px #00ff66;
+      text-transform: uppercase;
+    }
+
+    .chat-header-emo p {
+      font-size: 11px;
+      color: #cccccc;
+      margin-top: 2px;
+    }
+
+    .chat-topic-pill {
+      font-family: "VT323", monospace;
+      font-size: 13px;
+      color: #9effff;
+      padding: 3px 6px;
+      border: 1px solid #9effff;
+      display: inline-block;
+      margin-bottom: 10px;
+      background: #000000;
+    }
+
+    /* Override default chat box for emo terminal look */
+    #messages {
+      max-height: 360px;
+      overflow-y: auto;
+      padding: 10px;
+      background: #020202;
+      border: 2px solid #00ff66;
+      margin-bottom: 10px;
+      font-family: "Courier New", monospace;
+    }
+
+    .message {
+      padding: 6px 4px;
+      margin-bottom: 4px;
+      background: transparent;
+      border-left: 3px solid #00ff66;
+      color: #c8ffc8;
+      font-size: 11px;
+    }
+
+    .message:nth-child(odd) {
+      background: rgba(0, 255, 102, 0.06);
+    }
+
+    .message strong {
+      color: #66ff99;
+      font-size: 12px;
+    }
+
+    .chat-input-box {
+      display: flex;
+      gap: 6px;
+      background: #000000;
+      padding: 8px;
+      border: 1px dashed #00ff66;
+      align-items: center;
+    }
+
+    .chat-input-box input {
+      margin: 0;
+      border: 1px solid #00ff66;
+      background: #050505;
+      color: #c8ffc8;
+      font-family: "Courier New", monospace;
+    }
+
+    .chat-input-box input::placeholder {
+      color: #667f66;
+    }
+
+    /* Send button in hacker green */
+    #send-button {
+      width: auto;
+      padding: 8px 12px;
+      background: linear-gradient(#00ff66, #008f33);
+      border: 2px solid #ffffff;
+      color: #000000;
+      font-size: 14px;
+      text-shadow: none;
+      font-family: "VT323", monospace;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #send-button:hover {
+      background: linear-gradient(#9effff, #00ff66);
+      color: #000000;
+      border-color: #000000;
+      transform: scale(1.03);
+    }
+
+    /* Clear messages (owner/admin only) */
+    .admin-chat-btn {
+      margin-top: 10px;
+      font-size: 14px;
+      background: #111111;
+      border: 2px solid #ff0000;
+      color: #ffcccc;
+      width: 100%;
+    }
+
+    .admin-chat-btn:hover {
+      background: #ff0000;
+      color: #000000;
+    }
+
+    .chat-footer-nav {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .chat-footer-nav a {
+      font-family: "VT323", monospace;
+      font-size: 16px;
+      color: #9effff;
+      background: #000000;
+      padding: 2px 6px;
+      text-decoration: none;
+      border: 1px solid #9effff;
+    }
+
+    .chat-footer-nav a:hover {
+      color: #000000;
+      background: #9effff;
+    }
+  </style>
 </head>
 
 <body>
@@ -11,53 +161,52 @@
     <main class="main-content">
       <div class="max-width">
 
-        <div class="panel">
+        <h1 class="app-title">Floptropica</h1>
+        <p class="app-subtitle">late-night venting // emo edition</p>
 
-          <div class="chat-header">
-            <h2 id="chat-room-name">~*~ FLOPHOUSE PARTY ~*~</h2>
-            <p id="chat-room-meta">13 users online, u R the 14th!!</p>
+        <div class="panel chat-panel-emo">
+
+          <div class="chat-header-emo">
+            <h2 id="chat-room-name">[ loading room… ]</h2>
+            <p id="chat-room-meta">0 users online • messages sync live</p>
+          </div>
+
+          <div class="chat-topic-pill">
+            // pop punk • overshare • melodrama only //
           </div>
 
           <div id="messages">
+            <!-- Optional sample messages, will be replaced by chat.js -->
             <div class="message">
-              <strong>&lt;3 FLOP_BABE_99 &lt;3:</strong>
-              OMG, I'm dying. This theme is **everything**!
+              <strong>&lt;3 XX_ANGSTY_HEART_XX:</strong>
+              u ever open a new tab just to stare at it
             </div>
             <div class="message">
-              <strong>&lt;3 xX_SCENE_KING_Xx:</strong>
-              Rawr XD. I agree, it's so hot.
-            </div>
-            <div class="message">
-              <strong>&lt;3 GLITZY_DOLL:</strong>
-              Anyone wanna be my top 8? D:&lt;
-            </div>
-            <div class="message">
-              <strong>&lt;3 FLOP_BABE_99 &lt;3:</strong>
-              What's the link to that new **hawt** Fall Out Boy song??
-            </div>
-            <div class="message">
-              <strong>&lt;3 xX_SCENE_KING_Xx:</strong>
-              *pokes*
-            </div>
-            <div class="message">
-              <strong>&lt;3 GLITZY_DOLL:</strong>
-              T Y P I N G . . .
+              <strong>&lt;3 MIDNIGHT_CAFFEINE:</strong>
+              this room better be more active than my social life
             </div>
           </div>
 
           <div class="chat-input-box">
-            <input id="message-input" type="text" placeholder="Type your message...">
-            <button id="send-button">SEND &amp; SPARKLE</button>
+            <input
+              id="message-input"
+              type="text"
+              placeholder="type ur lyrics, vents, or chaos here…"
+              autocomplete="off"
+            >
+            <button id="send-button">send</button>
           </div>
 
-          <button id="clear-messages-btn" class="admin-chat-btn" style="display:none;">
-            Clear Messages
+          <button
+            id="clear-messages-btn"
+            class="admin-chat-btn"
+            style="display:none;">
+            wipe chat (owner)
           </button>
 
           <div class="chat-footer-nav">
-            <a href="rooms.html">← Back to Rooms</a>
+            <a href="rooms.html">← back to rooms</a>
           </div>
-
         </div>
 
       </div>
