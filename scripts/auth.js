@@ -10,7 +10,6 @@ import {
 const SCHOOL_DOMAIN = "@willisisd.org";
 
 function emailToKey(email) {
-  // normalize email into a Firebase-safe key
   return email.trim().toLowerCase().replace(/\./g, ",");
 }
 
@@ -55,7 +54,6 @@ loginForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  // store session info in localStorage
   localStorage.setItem("flop_email", user.email);
   localStorage.setItem("flop_name", user.name);
   localStorage.setItem("flop_role", user.role || "user");
@@ -100,7 +98,6 @@ signupForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  // Check if user already exists
   const userKey = emailToKey(email);
   const userRef = ref(db, `users/${userKey}`);
   const existingUser = await get(userRef);
@@ -109,13 +106,12 @@ signupForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  // Create pending request
   const pendingRef = ref(db, "pendingAccounts");
   const newRef = push(pendingRef);
   await set(newRef, {
     name,
     email,
-    password, // WARNING: not secure, don't reuse real passwords
+    password, // reminder: do NOT use your real school password
     reason,
     createdAt: Date.now()
   });
