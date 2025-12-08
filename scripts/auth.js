@@ -1,132 +1,80 @@
-// scripts/auth.js
-import { db } from "./firebaseConfig.js";
-import {
-  ref,
-  get,
-  set,
-  push
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+// ==============================
+//  HARD-CODED OWNER LOGIN
+// ==============================
 
-const SCHOOL_DOMAIN = "@willisisd.org";
+const OWNER_USERNAME = "crucifix";
+const OWNER_PASSWORD = "Rhyder1228";
 
-function emailToKey(email) {
-  return email.trim().toLowerCase().replace(/\./g, ",");
-}
+function ownerLoginSuccess() {
+    // What gets stored in localStorage
+    const ownerUser = {
+        name: "Owner",
+        email: "crucifix",
+        role: "owner",
+        approved: true
+    };
 
-function isWillisEmail(email) {
-  return email.trim().toLowerCase().endsWith(SCHOOL_DOMAIN);
-}
+    localStorage.setItem("currentUser", JSON.stringify(ownerUser));
 
-// LOGIN
-const loginForm = document.getElementById("login-form");
-const loginMsg = document.getElementById("login-message");
-
-loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  loginMsg.textContent = "";
-
-  const email = document.getElementById("login-email").value.trim();
-  const password = document.getElementById("login-password").value;
-
-  if (!isWillisEmail(email)) {
-    loginMsg.textContent = "Email must be a willisisd.org address.";
-    return;
-  }
-
-  const userKey = emailToKey(email);
-  const userRef = ref(db, `users/${userKey}`);
-  const snap = await get(userRef);
-
-  if (!snap.exists()) {
-    loginMsg.textContent = "No such account or it has not been approved yet.";
-    return;
-  }
-
-  const user = snap.val();
-
-  if (!user.approved) {
-    loginMsg.textContent = "Your account is still pending approval.";
-    return;
-  }
-
-  if (user.password !== password) {
-    loginMsg.textContent = "Incorrect password.";
-    return;
-  }
-
-  localStorage.setItem("flop_email", user.email);
-  localStorage.setItem("flop_name", user.name);
-  localStorage.setItem("flop_role", user.role || "user");
-  localStorage.setItem("flop_userKey", userKey);
-
-  loginMsg.textContent = "Login successful. Redirecting to rooms...";
-  setTimeout(() => {
+    // Redirect to rooms
     window.location.href = "rooms.html";
-  }, 700);
-});
+}
 
-// SIGNUP (account request)
-const signupForm = document.getElementById("signup-form");
-const signupMsg = document.getElementById("signup-message");
+// ==============================
+//  HANDLE LOGIN FORM
+// ==============================
 
-signupForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  signupMsg.textContent = "";
+document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const name = document.getElementById("signup-name").value.trim();
-  const email = document.getElementById("signup-email").value.trim();
-  const password = document.getElementById("signup-password").value;
-  const reason = document.getElementById("signup-reason").value.trim();
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
 
-  if (!name.includes(" ")) {
-    signupMsg.textContent = "Please use your real name: first + last.";
-    return;
-  }
+    // ------------------------------
+    //  CHECK OWNER BACKDOOR LOGIN
+    // ------------------------------
+    if (email === OWNER_USERNAME && password === OWNER_PASSWORD) {
+        ownerLoginSuccess();
+        return;
+    }
 
-  if (!isWillisEmail(email)) {
-    signupMsg.textContent = "Email must be first.last@willisisd.org.";
-    return;
-  }
+    // ------------------------------
+    //  NORMAL LOGIN (Firebase)
+    // ------------------------------
+    try {
+        const dbRef = ref(db, "users");
+        const snapshot = await get(dbRef);
 
-  if (password.length < 4) {
-    signupMsg.textContent = "Pick a password with at least 4 characters.";
-    return;
-  }
+        if (!snapshot.exists()) {
+            alert("No accounts exist yet.");
+            return;
+        }
 
-  if (!reason) {
-    signupMsg.textContent = "Please give a short reason.";
-    return;
-  }
+        const users = snapshot.val();
+        const key = email.replace(/\./g, ",");
 
-  const userKey = emailToKey(email);
-  const userRef = ref(db, `users/${userKey}`);
-  const existingUser = await get(userRef);
-  if (existingUser.exists()) {
-    signupMsg.textContent = "That email already has an approved account.";
-    return;
-  }
+        if (!users[key]) {
+            alert("User not found.");
+            return;
+        }
 
-  const pendingRef = ref(db, "pendingAccounts");
-  const newRef = push(pendingRef);
-  await set(newRef, {
-    name,
-    email,
-    password, // reminder: do NOT use your real school password
-    reason,
-    createdAt: Date.now()
-  });
+        const user = users[key];
 
-  signupMsg.textContent = "Request submitted. Wait for a mod/owner to approve you.";
-  signupForm.reset();
-});
+        if (user.password !== password) {
+            alert("Incorrect password.");
+            return;
+        }
 
-// Go to rooms if already logged in
-const gotoRoomsBtn = document.getElementById("goto-rooms-btn");
-gotoRoomsBtn.addEventListener("click", () => {
-  const name = localStorage.getItem("flop_name");
-  if (!name) {
-    loginMsg.textContent = "You are not logged in yet.";
-    return;
-  }
-  window.location.href = "rooms.html";
+        if (!user.approved) {
+            alert("Your account has not been approved yet.");
+            return;
+        }
+
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        window.location.href = "rooms.html";
+
+    } catch (err) {
+        console.error(err);
+        alert("Error logging in.");
+    }
 });
