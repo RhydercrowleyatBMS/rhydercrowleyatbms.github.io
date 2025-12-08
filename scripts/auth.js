@@ -1,14 +1,12 @@
-// auth.js — full version with Firebase + owner bypass
-
 // ==============================
 //  Firebase setup (module v9+)
 // ==============================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+import { getDatabase, ref, set, push, get } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
 console.log("auth.js loaded");
 
-// Your Firebase config
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAHKDJWehHiU_noBMf4w1PRV-uGM4tjS4s",
   authDomain: "chatroom-770b2.firebaseapp.com",
@@ -20,14 +18,12 @@ const firebaseConfig = {
   measurementId: "G-DLFYMPHE9F"
 };
 
-// Init Firebase + DB
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // ==============================
-//  HARD-CODED OWNER LOGIN
+//  OWNER BACKDOOR LOGIN
 // ==============================
-
 const OWNER_EMAIL = "rhyder.crowley@willisisd.org";
 const OWNER_PASSWORD = "Rhyder1228";
 
@@ -40,87 +36,93 @@ function ownerLoginSuccess() {
   };
 
   localStorage.setItem("currentUser", JSON.stringify(ownerUser));
-  console.log("Owner bypass login success, redirecting to rooms…");
+  console.log("Owner login success — redirecting");
   window.location.href = "rooms.html";
 }
 
-// ==============================
-//  HELPER: email -> user key
-// ==============================
-function emailToKey(email) {
+// Format email → Firebase key
+function emailKey(email) {
   return email.trim().toLowerCase().replace(/\./g, ",");
 }
 
 // ==============================
-//  HANDLE LOGIN FORM
+//  LOGIN HANDLER
 // ==============================
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("loginForm");
-  const emailInput = document.getElementById("loginEmail");
-  const passwordInput = document.getElementById("loginPassword");
+document.getElementById("login-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-  if (!form) {
-    console.error("loginForm not found in auth.html");
+  const email = document.getElementById("login-email").value.trim();
+  const password = document.getElementById("login-password").value.trim();
+
+  console.log("Login attempt:", email);
+
+  // Owner bypass
+  if (email === OWNER_EMAIL && password === OWNER_PASSWORD) {
+    ownerLoginSuccess();
     return;
   }
-  if (!emailInput || !passwordInput) {
-    console.error("loginEmail or loginPassword input not found in auth.html");
+
+  // Normal login
+  const key = emailKey(email);
+  const userRef = ref(db, `users/${key}`);
+  const snap = await get(userRef);
+
+  if (!snap.exists()) {
+    alert("Account not found.");
     return;
   }
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  const user = snap.val();
 
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
+  if (user.password !== password) {
+    alert("Incorrect password.");
+    return;
+  }
 
-    console.log("Login attempt for:", email);
+  if (!user.approved) {
+    alert("Your account is still pending approval.");
+    return;
+  }
 
-    // ------------------------------
-    //  OWNER BACKDOOR LOGIN
-    // ------------------------------
-    if (email === OWNER_EMAIL && password === OWNER_PASSWORD) {
-      console.log("Owner credentials matched, using bypass.");
-      ownerLoginSuccess();
-      return;
-    }
+  localStorage.setItem("currentUser", JSON.stringify(user));
+  window.location.href = "rooms.html";
+});
 
-    // ------------------------------
-    //  NORMAL LOGIN (Firebase users)
-//  users/<emailKey> { name, email, password, role, approved }
-// ------------------------------
-    try {
-      const userKey = emailToKey(email);
-      const userRef = ref(db, `users/${userKey}`);
-      const snap = await get(userRef);
+// ==============================
+//  SIGNUP HANDLER
+// ==============================
+document.getElementById("signup-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-      if (!snap.exists()) {
-        alert("User not found. Ask Rhyder to create or approve your account.");
-        console.warn("Login failed: user not found in /users:", userKey);
-        return;
-      }
+  const name = document.getElementById("signup-name").value.trim();
+  const email = document.getElementById("signup-email").value.trim();
+  const password = document.getElementById("signup-password").value.trim();
+  const reason = document.getElementById("signup-reason").value.trim();
 
-      const user = snap.val();
+  if (!email.endsWith("@willisisd.org")) {
+    alert("Must use your WILLIS ISD school email.");
+    return;
+  }
 
-      if (user.password !== password) {
-        alert("Incorrect password.");
-        console.warn("Login failed: bad password for:", email);
-        return;
-      }
+  const key = emailKey(email);
 
-      if (!user.approved) {
-        alert("Your account has not been approved yet.");
-        console.warn("Login failed: account not approved:", email);
-        return;
-      }
-
-      localStorage.setItem("currentUser", JSON.stringify(user));
-      console.log("Normal login success, redirecting to rooms…");
-      window.location.href = "rooms.html";
-
-    } catch (err) {
-      console.error("Login error:", err);
-      alert("Error logging in. Check console for details.");
-    }
+  // Add to pending accounts
+  await set(ref(db, `pendingAccounts/${key}`), {
+    name,
+    email,
+    password,
+    reason,
+    approved: false,
+    submittedAt: Date.now()
   });
+
+  document.getElementById("signup-message").textContent =
+    "Request submitted! A mod/owner must approve your account.";
+});
+
+// ==============================
+//  BUTTON: Go to rooms
+// ==============================
+document.getElementById("goto-rooms-btn")?.addEventListener("click", () => {
+  window.location.href = "rooms.html";
 });
