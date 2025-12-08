@@ -14,12 +14,18 @@
 
         <div class="panel">
           <div class="panel-header">
+            <div class="panel-title">identity</div>
+            <div class="panel-meta">current user</div>
+          </div>
+          <div id="identity" class="index-note"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
             <div class="panel-title">rooms</div>
             <div class="panel-meta">default + custom (24h)</div>
           </div>
-          <div id="room-list" class="room-list">
-            <!-- rooms injected by JS -->
-          </div>
+          <div id="room-list" class="room-list"></div>
         </div>
 
         <div class="panel">
@@ -43,11 +49,7 @@
         </div>
 
         <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title">identity</div>
-            <div class="panel-meta">current user</div>
-          </div>
-          <div id="identity" class="index-note"></div>
+          <button type="button" id="back-home-btn">← Back to home</button>
         </div>
       </div>
     </main>
