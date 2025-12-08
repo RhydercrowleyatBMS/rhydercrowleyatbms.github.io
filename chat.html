@@ -3,41 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <title>Floptropica // Chat</title>
-  <link rel="stylesheet" href="styles/glitch.css">
+  <link rel="stylesheet" href="styles/glitch.css" />
 </head>
+
 <body>
   <div class="shell">
     <main class="main-content">
-      <div class="chat-shell">
-        <header class="chat-header">
-          <div class="chat-header-left">
-            <div id="chat-room-name" class="chat-room-name">room: ???</div>
-            <div id="chat-room-meta" class="chat-room-meta">loading…</div>
-          </div>
-          <div class="chat-header-right">
-            <a href="rooms.html">← back to rooms</a>
-          </div>
-        </header>
+      <div class="max-width">
 
-        <div id="messages" class="chat-messages"></div>
+        <!-- CHAT PANEL -->
+        <div class="panel">
 
-        <div class="chat-input-row">
-          <input
-            id="message-input"
-            type="text"
-            autocomplete="off"
-            placeholder="type something..."
-            maxlength="400"
-          >
-          <button id="send-button" type="button">Send</button>
+          <!-- Header -->
+          <div class="chat-header">
+            <h2 id="chat-room-name">Chat Room</h2>
+            <p id="chat-room-meta"></p>
+          </div>
+
+          <!-- Messages -->
+          <div id="messages"></div>
+
+          <!-- Input -->
+          <div class="chat-input-box">
+            <input id="message-input" type="text" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+          </div>
+
+          <!-- Owner/Admin controls -->
+          <button id="clear-messages-btn" class="admin-chat-btn" style="display:none;">Clear Messages</button>
+
+          <div class="chat-footer-nav">
+            <a href="rooms.html">← Back to Rooms</a>
+          </div>
+
         </div>
 
-        <div id="admin-bar" class="chat-admin-bar" style="display:none;">
-          <div class="chat-admin-label">ADMIN ONLINE</div>
-          <div class="chat-admin-actions">
-            <button id="clear-messages-btn" type="button">Clear messages</button>
-          </div>
-        </div>
       </div>
     </main>
 
