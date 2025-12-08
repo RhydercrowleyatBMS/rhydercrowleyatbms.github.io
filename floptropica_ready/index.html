@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Floptropica // Entry</title>
+  <link rel="stylesheet" href="styles/glitch.css">
+</head>
+<body>
+  <div class="shell">
+    <main class="main-content">
+      <div class="max-width">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Floptropica // gateway</div>
+            <div class="panel-meta">build 00x1</div>
+          </div>
+
+          <div class="index-grid">
+            <form id="entry-form">
+              <label for="name">Display name</label>
+              <input id="name" type="text" maxlength="40" autocomplete="off" required>
+
+              <label for="admin-code">Admin code (optional)</label>
+              <input
+                id="admin-code"
+                type="password"
+                maxlength="16"
+                autocomplete="off"
+                placeholder="leave blank if you're not admin"
+              >
+
+              <button type="submit">Enter Floptropica</button>
+            </form>
+
+            <div class="index-note">
+              This is a tiny, chaotic chat thing. Your name is visible to the room, but nothing is verified or secure.
+              If you don't know the admin code, just leave it blank — you'll join as a regular user.
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span class="brand">© 2025 Floptropica</span>
+        <span class="divider">•</span>
+        <a href="privacy.html" class="footer-link">Privacy Policy</a>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module">
+    import { ADMIN_CODE } from "./scripts/firebaseConfig.js";
+
+    const form = document.getElementById("entry-form");
+    const nameInput = document.getElementById("name");
+    const adminInput = document.getElementById("admin-code");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = nameInput.value.trim();
+      const adminCode = adminInput.value.trim();
+
+      if (!name) return;
+
+      const isAdmin = adminCode === ADMIN_CODE;
+
+      localStorage.setItem("flop_name", name);
+      localStorage.setItem("flop_isAdmin", isAdmin ? "true" : "false");
+
+      window.location.href = "rooms.html";
+    });
+  </script>
+</body>
+</html>
