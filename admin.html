@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Floptropica // Admin Panel</title>
+  <link rel="stylesheet" href="styles/glitch.css">
+</head>
+<body>
+  <div class="shell">
+    <main class="main-content">
+      <div class="max-width">
+        <div class="app-title">Floptropica Admin</div>
+        <div class="app-subtitle">account approvals • manual accounts • willisisd</div>
+
+        <div id="admin-locked" class="panel" style="display:none;">
+          <div class="panel-header">
+            <div class="panel-title">no access</div>
+          </div>
+          <div class="index-note">
+            You do not have permission to view the admin panel. You must be a mod or owner.
+          </div>
+        </div>
+
+        <div id="admin-content" style="display:none;">
+
+          <!-- CURRENT IDENTITY -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">identity</div>
+              <div class="panel-meta">who you are logged in as</div>
+            </div>
+            <div id="admin-identity" class="index-note"></div>
+          </div>
+
+          <!-- PENDING ACCOUNTS -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">pending accounts</div>
+              <div class="panel-meta">approve or deny new signups</div>
+            </div>
+            <div id="pending-list" class="index-note">
+              loading pending accounts…
+            </div>
+          </div>
+
+          <!-- MANUAL ACCOUNT CREATION (OWNER ONLY) -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">create account manually</div>
+              <div class="panel-meta">for friends / special users (owner only)</div>
+            </div>
+
+            <form id="manual-create-form">
+              <label for="manual-name">Real name</label>
+              <input id="manual-name" type="text" autocomplete="off" required>
+
+              <label for="manual-email">School email</label>
+              <input id="manual-email" type="text" autocomplete="off" placeholder="first.last@willisisd.org" required>
+
+              <label for="manual-password">Password (NOT their school password)</label>
+              <input id="manual-password" type="password" autocomplete="off" required>
+
+              <label for="manual-role">Role</label>
+              <select id="manual-role">
+                <option value="user">User</option>
+                <option value="trial">Trial mod</option>
+                <option value="mod">Moderator</option>
+                <option value="owner">Owner</option>
+              </select>
+
+              <button type="submit">Create account</button>
+            </form>
+
+            <div id="manual-message" class="index-note"></div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span class="brand">© 2025 Floptropica</span>
+        <span class="divider">•</span>
+        <a href="privacy.html" class="footer-link">Privacy Policy</a>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="scripts/admin.js"></script>
+</body>
+</html>
