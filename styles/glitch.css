@@ -1,299 +1,289 @@
 /* ===================================================
-   FLOPTROPICA — CLEAN Y2K / SCENE THEME (NO EMOJIS)
-   =================================================== */
+    MCBLING / Y2K SCENE / HYPER-GLAM THEME
+    =================================================== */
 
-/* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+/* --- FONTS --- */
+/* Loud, rounded, and a bold, chunky display font */
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap'); /* For Titles */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap'); /* For Main Text */
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap'); /* Secondary Accent */
 
-/* Reset */
+/* --- RESET & BASE --- */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* Use a vibrant, almost neon background with intense gradients */
 html, body {
-  width: 100%;
-  height: 100%;
-  font-family: "Inter", sans-serif;
-  background: #06030a;
-  color: white;
+    width: 100%;
+    min-height: 100vh;
+    font-family: 'Orbitron', sans-serif;
+    background: #0d001a; /* Very deep purple */
+    color: #ffffff;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="8" fill="%23FF00FF" stroke="%23FFFFFF" stroke-width="2"/></svg>') 16 16, auto; /* Custom Pink Cursor */
 }
 
-/* Background Glow */
+/* --- BACKGROUND BLING --- */
 body {
-  background:
-    radial-gradient(circle at top left, rgba(255,0,170,0.25), transparent 60%),
-    radial-gradient(circle at bottom right, rgba(0,240,255,0.22), transparent 60%),
-    #05020a;
-  background-attachment: fixed;
+    /* Excessive, overlapping radial gradients for max glow */
+    background:
+        radial-gradient(circle at 10% 20%, rgba(255,0,255,0.4), transparent 50%), /* Hot Pink */
+        radial-gradient(circle at 90% 80%, rgba(0,255,255,0.3), transparent 50%), /* Cyan */
+        radial-gradient(circle at 50% 50%, rgba(255,255,0,0.1), transparent 70%), /* Yellow Sparkle */
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 20px), /* Subtle Grid/Sparkle Overlay */
+        #0d001a;
+    background-attachment: fixed;
+    /* Add an inner shadow/glow to the whole page */
+    box-shadow: inset 0 0 50px rgba(255, 0, 255, 0.4), inset 0 0 30px rgba(0, 255, 255, 0.2);
 }
 
-/* Shell */
-.shell {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
+/* --- LAYOUT & UTILS --- */
+.shell { min-height: 100vh; display: flex; flex-direction: column; }
+.main-content { flex: 1; padding: 40px 20px; display: flex; justify-content: center; align-items: start; }
+.max-width { width: 100%; max-width: 580px; /* Slightly narrower for focus */ }
 
-/* Content */
-.main-content {
-  flex: 1;
-  padding: 40px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: start;
-}
-
-.max-width {
-  width: 100%;
-  max-width: 620px;
-}
-
-/* ===============================
-   TITLES
-   =============================== */
-
+/* --- TITLES (EXTREME TEXT EFFECT) --- */
 .app-title {
-  font-family: "Rock Salt", cursive;
-  font-size: 32px;
-  text-align: center;
-  margin-bottom: 8px;
-  text-shadow:
-    0 0 6px rgba(255,255,255,0.8),
-    0 0 14px rgba(255,0,160,0.8),
-    0 0 22px rgba(0,255,255,0.7);
+    font-family: 'Cherry Bomb One', cursive; /* Chunky and loud */
+    font-size: 50px;
+    text-align: center;
+    margin-bottom: 5px;
+    letter-spacing: 0.05em;
+    color: #f7ff00; /* Neon Yellow for pop */
+    /* Triple-layer, intense shadow for the glow/bevel effect */
+    text-shadow:
+        -2px -2px 0 #ff00ff, /* Pink Outline 1 */
+        2px 2px 0 #00ffff, /* Cyan Outline 2 */
+        0 0 15px rgba(255, 255, 0, 1), /* Yellow Neon Glow */
+        0 0 30px rgba(255, 0, 255, 0.7); /* Pink Outer Glow */
 }
 
 .app-subtitle {
-  text-align: center;
-  font-size: 14px;
-  opacity: 0.8;
-  margin-bottom: 22px;
+    font-family: 'DotGothic16', sans-serif; /* Pixel/Digital touch */
+    text-align: center;
+    font-size: 16px;
+    color: #ffccff;
+    margin-bottom: 30px;
+    text-shadow: 0 0 5px #ff00ff;
 }
 
-/* ===============================
-   PANELS (Y2K / Scene Glass Box)
-   =============================== */
-
+/* --- PANELS (MCBLING GLASSPLEX) --- */
 .panel {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.15);
-  backdrop-filter: blur(7px);
-  border-radius: 14px;
-  padding: 26px 24px;
-  box-shadow:
-    0 0 0 1px rgba(255,0,160,0.4),
-    0 12px 34px rgba(0,0,0,0.7);
+    /* Use a more opaque, shiny, colorful glass effect */
+    background: rgba(255, 255, 255, 0.15); /* More opaque */
+    border: 3px solid;
+    border-image: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff) 1; /* Chunky, colorful border */
+    backdrop-filter: blur(12px) saturate(1.8); /* Stronger blur and saturation */
+    border-radius: 25px; /* Super rounded corners */
+    padding: 30px 28px;
+    /* Extreme drop shadow with glow */
+    box-shadow:
+        0 0 20px 5px rgba(255, 0, 255, 0.6), /* Inner glow */
+        0 15px 40px 10px rgba(0, 0, 0, 0.8), /* Deep drop shadow */
+        inset 0 0 10px rgba(255, 255, 255, 0.5); /* Inner sheen/highlight */
 }
 
-.panel-header {
-  margin-bottom: 18px;
-}
+.panel-header { margin-bottom: 22px; }
 
 .panel-title {
-  font-size: 20px;
-  font-weight: 700;
+    font-size: 24px;
+    font-weight: 900;
+    color: #00ffff;
+    text-shadow: 0 0 8px #ff00ff;
 }
 
 .panel-meta {
-  font-size: 12px;
-  opacity: 0.75;
+    font-size: 14px;
+    color: #ff99ff;
+    opacity: 0.9;
 }
 
-/* Divider under header */
+/* Divider: Use a glitter/dot pattern */
 .panel-header::after {
-  content: "";
-  display: block;
-  height: 1px;
-  margin-top: 10px;
-  background: linear-gradient(90deg,
-    rgba(255,0,160,0.5),
-    rgba(255,255,255,0.6),
-    rgba(0,255,255,0.5)
-  );
+    content: "· · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·";
+    display: block;
+    overflow: hidden;
+    height: 1.5px; /* Use a small height to suggest a line */
+    margin-top: 12px;
+    font-family: 'DotGothic16', sans-serif;
+    letter-spacing: 5px;
+    color: #f7ff00; /* Neon yellow dots */
+    text-shadow: 0 0 5px rgba(255, 0, 255, 0.5);
+    background: none; /* Override original background */
 }
 
-/* ===============================
-   FORMS / INPUTS
-   =============================== */
-
-label {
-  display: block;
-  font-size: 13px;
-  opacity: 0.85;
-  margin-top: 10px;
-  margin-bottom: 6px;
-}
+/* --- FORMS / INPUTS (Shiny Tech Look) --- */
+label { display: block; font-size: 14px; color: #f7ff00; margin-top: 15px; margin-bottom: 8px; font-weight: 700; }
 
 input, textarea, select {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  background: rgba(255,255,255,0.12);
-  color: white;
-  font-size: 15px;
-  outline: none;
-  margin-bottom: 18px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 15px; /* More rounded */
+    border: 2px solid #ff00ff; /* Pink border */
+    background: rgba(0, 0, 0, 0.7); /* Darker, more solid background */
+    color: #00ffff; /* Cyan text */
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 20px;
+    transition: 0.2s;
+    box-shadow: 0 0 5px rgba(255, 0, 255, 0.5);
 }
 
-input::placeholder {
-  opacity: 0.55;
-}
+input::placeholder { color: #ff99ff; opacity: 0.7; }
 
-/* focus glow */
+/* Focus: Intense glow */
 input:focus, textarea:focus, select:focus {
-  border: 1px solid rgba(0,255,255,0.7);
-  box-shadow: 0 0 12px rgba(0,255,255,0.6);
+    border: 3px solid #f7ff00; /* Yellow border on focus */
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 5px #ff00ff; /* Double glow */
+    background: rgba(5, 0, 20, 0.8);
 }
 
-/* ===============================
-   BUTTONS — Neon Y2K Glow
-   =============================== */
-
+/* --- BUTTONS (MEGA-NEON BLAST) --- */
 button {
-  width: 100%;
-  padding: 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.18);
-  background: linear-gradient(130deg,
-    rgba(255,0,170,0.9),
-    rgba(0,220,255,0.9)
-  );
-  color: white;
-  font-weight: 600;
-  letter-spacing: .04em;
-  cursor: pointer;
-  transition: 0.15s;
-  margin-top: 6px;
-  box-shadow:
-    0 0 12px rgba(255,0,160,0.5),
-    0 8px 18px rgba(0,0,0,0.7);
+    width: 100%;
+    padding: 16px; /* Bigger button */
+    border-radius: 999px;
+    border: 3px solid #fff; /* White outline */
+    /* Extreme 3-color gradient */
+    background: linear-gradient(90deg, #ff00ff, #f7ff00, #00ffff);
+    background-size: 300% 100%; /* For animated gradient */
+    color: #0d001a; /* Dark text for contrast */
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: .1em;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+    /* Massive, colorful drop shadow */
+    box-shadow:
+        0 0 15px #ff00ff,
+        0 0 30px #00ffff,
+        0 10px 20px rgba(0, 0, 0, 0.9);
+    animation: gradientShift 4s ease infinite; /* New: Gradient animation */
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 button:hover {
-  filter: brightness(1.08);
-  transform: translateY(-2px);
-  box-shadow:
-    0 0 18px rgba(255,0,160,0.8),
-    0 12px 28px rgba(0,0,0,0.9);
+    filter: brightness(1.2);
+    transform: scale(1.02) rotate(-1deg); /* Slight rotation for scene edge */
+    box-shadow:
+        0 0 25px 5px #f7ff00,
+        0 0 40px #ff00ff,
+        0 15px 30px rgba(0, 0, 0, 1);
+    border-color: #f7ff00;
 }
 
-/* ===============================
-   ROOM LIST
-   =============================== */
-
-#room-list { margin-top: 10px; }
+/* --- ROOM LIST (SCENE POP) --- */
+#room-list { margin-top: 15px; }
 
 .room-item {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.18);
-  border-left: 3px solid rgba(255,0,160,0.8);
-  padding: 15px;
-  margin-bottom: 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.12s;
-  font-size: 15px;
-  letter-spacing: 0.02em;
+    background: rgba(255, 0, 255, 0.1); /* Pink base */
+    border: 2px solid #00ffff; /* Cyan border */
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: 0.15s;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ff99ff;
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
 }
 
 .room-item:hover {
-  background: rgba(255,255,255,0.14);
-  border-left-color: rgba(0,255,255,0.9);
-  transform: translateY(-2px);
+    background: rgba(0, 255, 255, 0.15);
+    border-color: #f7ff00;
+    transform: scale(1.03) translateY(-3px); /* More aggressive hover */
+    box-shadow: 0 8px 15px rgba(255, 0, 255, 0.4);
 }
 
-/* ===============================
-   CHAT PAGE
-   =============================== */
-
+/* --- CHAT PAGE --- */
 .chat-header {
-  text-align: center;
-  margin-bottom: 16px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px dashed #f7ff00; /* Dashed line for a scrapbook look */
 }
 
 .chat-header h2 {
-  font-family: "Rock Salt", cursive;
-  font-size: 22px;
-  text-shadow:
-    0 0 9px rgba(255,0,160,0.8),
-    0 0 20px rgba(0,255,255,0.7);
+    font-family: 'Cherry Bomb One', cursive;
+    font-size: 28px;
+    color: #f7ff00;
+    text-shadow:
+        0 0 10px #ff00ff,
+        0 0 20px #00ffff;
 }
 
 #messages {
-  max-height: 380px;
-  overflow-y: auto;
-  padding: 8px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.12);
-  margin-bottom: 14px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 15px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08); /* Lighter glass */
+    border: 1px solid #ff00ff; /* Pink border */
+    margin-bottom: 18px;
+    box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.4); /* Inner glow */
 }
 
-/* Scrollbar */
-#messages::-webkit-scrollbar {
-  width: 6px;
-}
+/* Scrollbar: Make it extra colorful */
+#messages::-webkit-scrollbar { width: 8px; }
 #messages::-webkit-scrollbar-thumb {
-  background: rgba(255,0,160,0.7);
-  border-radius: 10px;
+    background: linear-gradient(180deg, #ff00ff, #f7ff00);
+    border-radius: 10px;
+    border: 1px solid #00ffff;
 }
+#messages::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
 
 .message {
-  padding: 12px;
-  margin-bottom: 10px;
-  background: rgba(15,0,45,0.8);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 10px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.7);
-  font-size: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+    /* Use a mix of black and dark color */
+    background: linear-gradient(135deg, rgba(30, 0, 40, 0.9), rgba(0, 0, 0, 0.9));
+    border: 1px solid #00ffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8), inset 0 0 5px rgba(255, 255, 255, 0.1);
+    font-size: 15px;
+    color: #ffffff;
 }
 
 /* Chat Input */
-.chat-input-box {
-  display: flex;
-  gap: 10px;
+.chat-input-box { display: flex; gap: 12px; }
+.chat-input-box input { margin: 0; flex-grow: 1; }
+/* Chat Send Button - Give it a dedicated look */
+.chat-input-box button {
+    width: auto;
+    min-width: 100px;
+    margin: 0;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 2px solid #ff00ff;
+    background: linear-gradient(180deg, #00ffff, #00aaff);
+    box-shadow: 0 0 10px #00ffff;
+    animation: none; /* Turn off global button animation */
 }
 
-.chat-input-box input {
-  margin: 0;
-}
-
-.chat-footer-nav {
-  text-align: center;
-  margin-top: 22px;
-}
-
+.chat-footer-nav { text-align: center; margin-top: 30px; }
 .chat-footer-nav a {
-  color: #a9dbff;
-  text-decoration: none;
+    color: #f7ff00;
+    text-decoration: underline;
+    text-shadow: 0 0 5px #ff00ff;
+    font-weight: 700;
 }
 
-/* ===============================
-   ADMIN PANEL
-   =============================== */
-
-.pending-item {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.15);
-  padding: 14px;
-  border-radius: 10px;
-  margin-bottom: 12px;
-}
-
-/* ===============================
-   FOOTER
-   =============================== */
-
+/* --- FOOTER (Small but still sparkly) --- */
 .site-footer {
-  padding: 10px 0 20px;
-  text-align: center;
-  opacity: 0.75;
-  font-size: 13px;
+    padding: 15px 0 25px;
+    text-align: center;
+    color: #ff99ff;
+    opacity: 0.85;
+    font-size: 14px;
+    text-shadow: 0 0 3px #ff00ff;
 }
