@@ -27,7 +27,6 @@ const pendingListEl = document.getElementById("pending-list");
 const manualForm = document.getElementById("manual-create-form");
 const manualMsg = document.getElementById("manual-message");
 
-// Check local role
 const currentName = localStorage.getItem("flop_name");
 const currentRole = localStorage.getItem("flop_role") || "user";
 
@@ -43,7 +42,6 @@ if (!currentName) {
   initPendingAccounts();
 }
 
-// Load and render pending accounts
 function initPendingAccounts() {
   const pendingRef = ref(db, "pendingAccounts");
   onValue(pendingRef, (snapshot) => {
@@ -79,7 +77,6 @@ function initPendingAccounts() {
       body.className = "index-note";
       body.textContent = `Reason: ${data.reason || "(none)"}`;
 
-      // Buttons
       const btnRow = document.createElement("div");
       btnRow.style.marginTop = "8px";
       btnRow.style.display = "flex";
@@ -108,7 +105,6 @@ function initPendingAccounts() {
   });
 }
 
-// Approve: move to /users and remove from /pendingAccounts
 async function approvePending(id, data) {
   if (!data || !data.email) return;
 
@@ -125,7 +121,7 @@ async function approvePending(id, data) {
     name: data.name || "",
     email,
     password: data.password || "",
-    role: "user",      // default role; you can edit role later
+    role: "user",
     approved: true,
     createdAt: data.createdAt || Date.now()
   });
@@ -136,12 +132,10 @@ async function approvePending(id, data) {
   alert(`Approved account for ${data.name || email}. Remember to email them manually if you want.`);
 }
 
-// Deny: delete pending & optionally log a reason
 async function denyPending(id, data) {
   const reason = prompt("Reason for denial (you will email them manually):", "");
   const pendingRef = ref(db, `pendingAccounts/${id}`);
 
-  // Optional: log denials in a /deniedAccounts node
   if (reason && data && data.email) {
     const logRef = ref(db, "deniedAccounts");
     const newLog = push(logRef);
@@ -158,7 +152,6 @@ async function denyPending(id, data) {
   alert("Request denied. Remember to email them if you want to explain why.");
 }
 
-// Manual account creation (owner only)
 manualForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   manualMsg.textContent = "";
