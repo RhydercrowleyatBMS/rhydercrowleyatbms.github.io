@@ -2,50 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>are you alone? – chatroom.best</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/css/style.css" />
-  <script type="module" src="/games/alone.js"></script>
+  <title>Critical Thinking Question Exercise</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="category" content="Educational" />
+  <meta name="purpose" content="Awareness & perception-building question exercise" />
+
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="/games/alone.js"></script>
 </head>
-<body>
-  <div class="noise-overlay"></div>
+<body class="game-body">
 
   <header class="site-header">
     <a href="/" class="logo">chatroom.best</a>
     <nav class="nav">
       <a href="/">Home</a>
-      <a href="/#games">Games</a>
+      <a href="/#games">Activities</a>
       <a href="/chat/">Chatroom</a>
+      <a href="/about.html">About</a>
     </nav>
   </header>
 
   <main class="section">
     <div class="card game-card">
-      <div class="card-tag">horror quiz</div>
-      <h2>are you alone?</h2>
+      <div class="card-tag">Awareness Exercise</div>
+      <h2>Critical Thinking Question Game</h2>
       <p class="game-subtitle">
-        answer honestly. the questions start normal and get a little… off.
+        A perception-strengthening exercise that uses progressively deeper questions to improve awareness, focus, and observation.
       </p>
 
       <div id="game-screen">
         <p id="question-text"></p>
-
-        <div id="answer-buttons" class="game-buttons">
-          <!-- buttons injected by JS -->
-        </div>
+        <div id="answer-buttons" class="game-buttons"></div>
 
         <div class="game-footer">
           <div class="progress-bar">
-            <div class="progress-fill" id="progress-fill"></div>
+            <div id="progress-fill" class="progress-fill"></div>
           </div>
           <span id="progress-label" class="progress-label"></span>
         </div>
       </div>
 
-      <button id="restart-btn" class="btn ghost" style="display:none;margin-top:1rem;">
-        play again
-      </button>
+      <button id="restart-btn" class="btn ghost" style="display:none;margin-top:1rem;">restart exercise</button>
     </div>
   </main>
+
+  <footer class="edu-footer">
+    Educational awareness activity to support perception and critical thinking.
+  </footer>
+
 </body>
 </html>
