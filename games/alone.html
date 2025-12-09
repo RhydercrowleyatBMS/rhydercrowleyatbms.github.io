@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>are you alone? – chatroom.best</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script type="module" src="/games/alone.js"></script>
+</head>
+<body>
+  <div class="noise-overlay"></div>
+
+  <header class="site-header">
+    <a href="/" class="logo">chatroom.best</a>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/#games">Games</a>
+      <a href="/chat/">Chatroom</a>
+    </nav>
+  </header>
+
+  <main class="section">
+    <div class="card game-card">
+      <div class="card-tag">horror quiz</div>
+      <h2>are you alone?</h2>
+      <p class="game-subtitle">
+        answer honestly. the questions start normal and get a little… off.
+      </p>
+
+      <div id="game-screen">
+        <p id="question-text"></p>
+
+        <div id="answer-buttons" class="game-buttons">
+          <!-- buttons injected by JS -->
+        </div>
+
+        <div class="game-footer">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+          <span id="progress-label" class="progress-label"></span>
+        </div>
+      </div>
+
+      <button id="restart-btn" class="btn ghost" style="display:none;margin-top:1rem;">
+        play again
+      </button>
+    </div>
+  </main>
+</body>
+</html>

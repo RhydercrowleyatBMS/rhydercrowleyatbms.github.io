@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>anonymous chat – chatroom.best</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script type="module" src="/js/chat.js"></script>
+</head>
+<body>
+  <div class="noise-overlay"></div>
+
+  <header class="site-header">
+    <a href="/" class="logo">chatroom.best</a>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/#games">Games</a>
+      <span style="opacity:.8;">Chatroom</span>
+    </nav>
+  </header>
+
+  <main class="section">
+    <div class="card" style="max-width: 720px; margin: 0 auto;">
+      <div class="card-tag">anonymous chat</div>
+      <h2>flop chat v2</h2>
+      <p class="game-subtitle">
+        simple, anonymous chatroom. messages disappear after 24 hours.
+      </p>
+
+      <div class="chat-window" id="chat-window">
+        <!-- messages go here -->
+      </div>
+
+      <form class="chat-form" id="chat-form">
+        <input
+          type="text"
+          id="chat-name"
+          class="chat-input small"
+          placeholder="nickname (optional)"
+          maxlength="20"
+        />
+        <textarea
+          id="chat-message"
+          class="chat-input"
+          placeholder="type a message…"
+          rows="2"
+        ></textarea>
+        <button class="btn primary" type="submit">send</button>
+      </form>
+
+      <details class="admin-panel">
+        <summary>admin tools</summary>
+        <input
+          type="password"
+          id="admin-code"
+          class="chat-input small"
+          placeholder="admin code"
+        />
+        <button type="button" class="btn ghost" id="clear-chat-btn">
+          clear all messages
+        </button>
+      </details>
+
+      <p class="chat-note">
+        no real names, no personal info, no stalking. just vibes.
+      </p>
+    </div>
+  </main>
+</body>
+</html>
