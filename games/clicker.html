@@ -2,42 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>panic clicker – chatroom.best</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/css/style.css" />
-  <script type="module" src="/games/clicker.js"></script>
+  <title>Reaction Time Activity</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="category" content="Educational" />
+  <meta name="purpose" content="Reaction time and coordination learning activity" />
+
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="/games/panic.js"></script>
 </head>
-<body>
-  <div class="noise-overlay"></div>
+<body class="game-body">
 
   <header class="site-header">
     <a href="/" class="logo">chatroom.best</a>
     <nav class="nav">
       <a href="/">Home</a>
-      <a href="/#games">Games</a>
+      <a href="/#games">Activities</a>
       <a href="/chat/">Chatroom</a>
+      <a href="/about.html">About</a>
     </nav>
   </header>
 
   <main class="section">
-    <div class="card game-card">
-      <div class="card-tag">clicker</div>
-      <h2>panic clicker</h2>
+    <div class="card">
+      <div class="card-tag">Reaction Activity</div>
+      <h2>Reaction Time Learning Tool</h2>
       <p class="game-subtitle">
-        click to keep your brain from spiraling. if the bar empties, the thoughts win.
+        This activity helps practice hand-eye coordination, response timing, and focus.
       </p>
 
-      <p class="clicker-count" id="click-count">0</p>
-      <p class="clicker-status" id="click-status">you’re fine. probably.</p>
-
-      <div class="game-buttons">
-        <button class="btn primary" id="click-btn">click here</button>
-      </div>
-
-      <div class="progress-bar" style="margin-top:1.4rem;">
-        <div class="progress-fill" id="click-fill"></div>
+      <div id="panic-area" class="panic-area">
+        <!-- Your game content goes here -->
       </div>
     </div>
   </main>
+
+  <footer class="edu-footer">
+    Educational reaction time exercise to improve coordination and focus.
+  </footer>
+
 </body>
 </html>
