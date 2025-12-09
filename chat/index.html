@@ -2,8 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>anonymous chat – chatroom.best</title>
+  <title>Educational Collaboration Chatroom</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Educational Meta -->
+  <meta name="category" content="Educational" />
+  <meta name="purpose" content="Safe educational communication and collaboration tool." />
+  <meta name="description" content="A minimal-data educational chatroom designed to practice communication skills in a safe, anonymous environment." />
+
   <link rel="stylesheet" href="/css/style.css" />
   <script type="module" src="/js/chat.js"></script>
 </head>
@@ -14,57 +20,41 @@
     <a href="/" class="logo">chatroom.best</a>
     <nav class="nav">
       <a href="/">Home</a>
-      <a href="/#games">Games</a>
-      <span style="opacity:.8;">Chatroom</span>
+      <a href="/#games">Activities</a>
+      <span style="opacity:0.8;">Chatroom</span>
+      <a href="/about.html">About</a>
     </nav>
   </header>
 
   <main class="section">
-    <div class="card" style="max-width: 720px; margin: 0 auto;">
-      <div class="card-tag">anonymous chat</div>
-      <h2>flop chat v2</h2>
+    <div class="card" style="max-width:720px;margin:0 auto;">
+      <div class="card-tag">Educational Collaboration</div>
+      <h2>Student Communication Practice</h2>
       <p class="game-subtitle">
-        simple, anonymous chatroom. messages disappear after 24 hours.
+        This chatroom is for educational communication practice.  
+        No personal information is required.  
+        Messages are simple, anonymous, and automatically expire.
       </p>
 
-      <div class="chat-window" id="chat-window">
-        <!-- messages go here -->
-      </div>
+      <div id="chat-window" class="chat-window"></div>
 
-      <form class="chat-form" id="chat-form">
-        <input
-          type="text"
-          id="chat-name"
-          class="chat-input small"
-          placeholder="nickname (optional)"
-          maxlength="20"
-        />
-        <textarea
-          id="chat-message"
-          class="chat-input"
-          placeholder="type a message…"
-          rows="2"
-        ></textarea>
+      <form id="chat-form" class="chat-form">
+        <input id="chat-name" class="chat-input small" placeholder="nickname (optional)" maxlength="20">
+        <textarea id="chat-message" class="chat-input" placeholder="enter your educational message…" rows="2"></textarea>
         <button class="btn primary" type="submit">send</button>
       </form>
 
       <details class="admin-panel">
-        <summary>admin tools</summary>
-        <input
-          type="password"
-          id="admin-code"
-          class="chat-input small"
-          placeholder="admin code"
-        />
-        <button type="button" class="btn ghost" id="clear-chat-btn">
-          clear all messages
-        </button>
+        <summary>educational moderation</summary>
+        <input id="admin-code" class="chat-input small" type="password" placeholder="admin code" />
+        <button id="clear-chat-btn" class="btn ghost" type="button">clear all messages</button>
       </details>
-
-      <p class="chat-note">
-        no real names, no personal info, no stalking. just vibes.
-      </p>
     </div>
   </main>
+
+  <footer class="edu-footer">
+    Educational communication tool.  
+    Anonymous messages help students practice safe interaction skills.
+  </footer>
 </body>
 </html>
