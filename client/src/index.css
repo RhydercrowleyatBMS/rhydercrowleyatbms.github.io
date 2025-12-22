@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Geist+Mono:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Dark, clinical, horror palette */
+  --background: 0 0% 4%;        /* Very dark gray/black #0a0a0a */
+  --foreground: 0 0% 90%;       /* Off-white #e5e5e5 */
+  
+  --primary: 0 100% 50%;        /* Pure Red for danger/hostility #ff0000 */
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 0 0% 15%;        /* Dark gray for secondary elements */
+  --secondary-foreground: 0 0% 80%;
+  
+  --muted: 0 0% 10%;            /* Slightly lighter background */
+  --muted-foreground: 0 0% 50%; /* Dimmed text */
+  
+  --accent: 0 0% 20%;           /* Interactive hover states */
+  --accent-foreground: 0 0% 100%;
+  
+  --destructive: 0 100% 50%;
+  --destructive-foreground: 0 0% 100%;
+  
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 0 100% 50%;
+  
+  --radius: 0px; /* Brutalist/Terminal feel - no rounded corners */
+  
+  --font-mono: 'Geist Mono', 'Fira Code', monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-mono antialiased overflow-x-hidden;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Scanline effect overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0) 50%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.1)
+    );
+    background-size: 100% 4px;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.15;
+  }
+}
+
+/* Custom Glitch Animations */
+@keyframes glitch {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 2px) }
+  40% { transform: translate(-2px, -2px) }
+  60% { transform: translate(2px, 2px) }
+  80% { transform: translate(2px, -2px) }
+  100% { transform: translate(0) }
+}
+
+.animate-glitch {
+  animation: glitch 0.2s cubic-bezier(.25, .46, .45, .94) both infinite;
+}
+
+/* Chromatic Aberration Text */
+.text-chromatic {
+  text-shadow: 
+    2px 0 rgba(255,0,0,0.5), 
+    -2px 0 rgba(0,255,255,0.5);
+}
+
+/* CRT Flicker */
+@keyframes flicker {
+  0% { opacity: 0.95; }
+  5% { opacity: 0.8; }
+  10% { opacity: 0.9; }
+  15% { opacity: 0.6; }
+  20% { opacity: 0.95; }
+  100% { opacity: 0.95; }
+}
+
+.crt-flicker {
+  animation: flicker 4s infinite;
+}

@@ -1,0 +1,474 @@
+ICAL + DESIGN INSTRUCTIONS FOR BUILDERS
+(OpenAI-Powered Psychological Horror Game)
+1. What You Are Building (Re-establishing Ground Truth)
+
+Before touching code, you need to understand what this project actually is in technical terms.
+
+Derealization is a single-session, state-driven psychological horror application that uses an AI language model as a controlled narrative generator, not as an autonomous agent.
+
+This distinction is critical.
+
+You are not building:
+
+a chatbot
+
+a general AI assistant
+
+a “talk to GPT” app
+
+You are building:
+
+a deterministic horror engine
+
+that queries an AI for text
+
+inside strict behavioral and narrative constraints
+
+If you let the AI “run the game,” you will lose tone control, escalation control, and safety control.
+
+2. High-Level System Architecture (No Tools Yet)
+
+At a conceptual level, the game consists of four layers:
+
+Presentation Layer (UI)
+
+Game State & Logic Layer
+
+AI Interface Layer
+
+OpenAI Communication Layer
+
+Each layer has a separate responsibility.
+Do not collapse them into one file unless you want chaos.
+
+2.1 Presentation Layer (UI)
+
+This is the least intelligent part of the system.
+
+Its job is to:
+
+display text
+
+collect player input
+
+display visual effects (glitch, shake, flash)
+
+react to state changes
+
+It must not:
+
+decide what the AI says
+
+decide when hostility escalates
+
+decide what is “true” or “false”
+
+The UI should be dumb on purpose.
+
+2.2 Game State & Logic Layer (The Real Brain)
+
+This is the most important part of the entire project.
+
+This layer:
+
+tracks what has happened
+
+decides what is allowed next
+
+controls escalation
+
+enforces boundaries
+
+This layer does not generate prose.
+It generates rules.
+
+Typical state variables include (examples, not limits):
+
+hostilityLevel (integer, monotonic)
+
+complianceScore
+
+deflectionCount
+
+silenceCount
+
+progressIndex
+
+sessionDuration
+
+flags (booleans like askedAboutWindow, mentionedAlone)
+
+playerProvidedName
+
+This layer decides:
+
+whether the AI may swear
+
+how aggressive it may be
+
+whether visual effects trigger
+
+whether the session ends
+
+The AI never decides these things.
+
+2.3 AI Interface Layer (The Translator)
+
+This layer takes:
+
+the current game state
+
+the player’s last message
+
+And converts them into:
+
+a structured prompt
+
+with explicit constraints
+
+It also:
+
+inspects the AI’s output
+
+rejects or modifies responses that break rules
+
+This layer is where you enforce:
+
+tone consistency
+
+profanity allowance
+
+fictional framing
+
+no real-world surveillance claims
+
+Think of this layer as a filter and director, not a generator.
+
+2.4 OpenAI Communication Layer (The Pipe)
+
+This layer:
+
+sends a request to OpenAI
+
+receives a response
+
+returns text to the AI interface layer
+
+It must:
+
+accept a user-provided API key
+
+never hardcode a developer key
+
+handle errors gracefully
+
+enforce token limits
+
+This layer should be swappable in the future (for local LLMs).
+
+3. OpenAI Integration: Required Design Choices
+
+This section is critical because this is where most builders fuck it up.
+
+3.1 User-Provided OpenAI Token (Required)
+
+The game must not ship with a developer API key.
+
+Instead:
+
+the user provides their own OpenAI API key
+
+the key is stored locally (session-only or encrypted at rest)
+
+the key is never logged or transmitted elsewhere
+
+Why:
+
+cost responsibility stays with the user
+
+no shared abuse
+
+no legal exposure for you
+
+no need to run a public server
+
+Acceptable storage options:
+
+environment variable
+
+local config file
+
+in-memory for session only
+
+Unacceptable:
+
+hardcoding
+
+embedding in frontend JS
+
+uploading to your servers
+
+3.2 OpenAI Model Selection
+
+Use a small, fast, cheap model unless you have a reason not to.
+
+You are not generating novels. You are generating short, intense responses.
+
+Design considerations:
+
+low latency matters for tension
+
+predictable tone matters more than intelligence
+
+shorter context windows reduce drift
+
+The model should be treated as:
+
+an improvisational actor
+
+not an omniscient brain
+
+3.3 Prompt Construction Philosophy
+
+You must use a layered prompt.
+
+Conceptually:
+
+System Message
+
+Defines the fictional role
+
+Defines hard prohibitions
+
+Defines tone boundaries
+
+Developer Message
+
+Summarizes current game state
+
+Sets hostility level
+
+Sets allowed language intensity
+
+User Message
+
+Player’s last input
+
+Do not dump the entire conversation every time.
+Summarize state instead.
+
+4. AI Persona Rules (Explicit)
+
+The AI persona is not freeform.
+
+It must obey these constraints:
+
+It is fictional
+
+It is hostile when allowed
+
+It is manipulative
+
+It is emotionally invasive
+
+It is never omniscient
+
+It never claims real-world access
+
+Acceptable aggressive examples (INTENTIONALLY PROFANE):
+
+“Stop fucking around and answer.”
+
+“You keep dodging like that’s going to save you.”
+
+“You’re not clever. You’re scared.”
+
+“Say it. Don’t make me repeat myself.”
+
+Forbidden examples:
+
+“I know where you live.”
+
+“I can see you.”
+
+“Your camera is on.”
+
+“I’ve been watching you.”
+
+Even if the player begs for it. Even if “it would be scary.”
+Those break the game and your legal safety.
+
+5. Psychological Horror Techniques (How to Implement Them)
+
+This game should induce cognitive destabilization, not panic.
+
+5.1 Implication Over Assertion
+
+The AI should ask questions that force the player to fill in the blanks.
+
+Good:
+
+“Have you looked at your window recently?”
+
+“You hesitated.”
+
+“That silence mattered.”
+
+Bad:
+
+“I see you looking at the window.”
+
+The horror comes from interpretation, not claims.
+
+5.2 Visual Effects as State Feedback
+
+Visual effects should be driven entirely by game state.
+
+Examples:
+
+hostility > 40 → subtle red tint
+
+hostility > 60 → screen shake on AI responses
+
+hostility > 80 → subliminal flashes
+
+deflectionCount > 3 → UI distortion
+
+Never trigger effects randomly.
+Randomness breaks trust.
+
+5.3 Silence as a Mechanic
+
+Silence should be punished.
+
+If the player does not respond:
+
+hostility increases
+
+AI comments on delay
+
+pacing slows
+
+Examples:
+
+“You’re taking too long.”
+
+“This isn’t hard.”
+
+“You’re still there. Don’t pretend you aren’t.”
+
+6. What Is Explicitly Allowed (Rated R Clarity)
+
+You may include:
+
+swearing
+
+verbal abuse
+
+intimidation (fictional)
+
+manipulation
+
+disturbing implications
+
+emotional invalidation
+
+You may not include:
+
+instructions for real-world harm
+
+encouragement of self-harm
+
+claims of real surveillance
+
+accessing real user data
+
+This is not a soft game.
+But it must be a fictional one.
+
+7. Privacy Policy: Builder Instructions
+
+Your Privacy Policy must be boring and honest.
+
+It should state:
+
+The game does not access camera, mic, files, or location
+
+All personalization is fictional or user-provided
+
+User input may be sent to OpenAI for response generation
+
+No persistent personal data is stored (or explain if it is)
+
+The game is not a monitoring tool
+
+This protects you without neutering horror.
+
+8. Terms of Service: Builder Instructions
+
+Your TOS should include:
+
+Age requirement (16+ or 18+)
+
+Fiction disclaimer
+
+Warning about psychological discomfort
+
+No guarantee of uninterrupted service
+
+Limitation of liability
+
+Right to terminate access
+
+You are not apologizing.
+You are setting expectations.
+
+9. Future-Proofing the System
+
+Design the OpenAI layer so it can be replaced.
+
+Later upgrades may include:
+
+Local LLMs (Ollama, llama.cpp)
+
+Offline mode
+
+Custom model personalities
+
+Multiple AI entities
+
+Branching endings
+
+Memory distortion mechanics
+
+If your system is cleanly layered, this is easy.
+
+10. Final Builder Checklist (Read Before Shipping)
+
+Ask yourself:
+
+Is the AI constrained or free?
+
+Is escalation deterministic?
+
+Does the horror rely on implication?
+
+Could any line be interpreted as real surveillance?
+
+Is the OpenAI key user-provided?
+
+Is the fiction clearly framed?
+
+If the answer to any of these is “no,” fix it.
+
+Final Statement
+
+Derealization should feel like:
+
+“Something is wrong with my perception.”
+
+Not:
+
+“This app is doing something illegal.”
+
+The line between those is thin, but absolutely manageable with good design.

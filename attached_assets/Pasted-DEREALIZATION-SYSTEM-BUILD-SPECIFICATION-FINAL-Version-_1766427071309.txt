@@ -1,0 +1,362 @@
+DEREALIZATION — SYSTEM BUILD SPECIFICATION (FINAL)
+
+Version: Interrogative / Non-Chat / Aggression-Driven Build
+
+1. CORE IDENTITY OF THE APPLICATION
+
+This application is NOT a chatbot.
+
+It is a single-session psychological interrogation engine that uses an AI model only as a narrative voice.
+
+The user is not conversing.
+The user is being questioned.
+
+The system is the authority.
+The AI is the mouthpiece.
+
+If the implementation behaves like a friendly, neutral, or conversational chatbot, it is incorrect.
+
+2. INTERACTION MODEL (NO CHATBOX)
+2.1 The User Never Initiates Conversation
+
+The application starts automatically
+
+The AI speaks first
+
+The user is never expected to say “hello” or initiate dialogue
+
+On session start:
+
+The system immediately triggers the first AI question
+
+If the application waits for user input before the AI speaks, the implementation is wrong.
+
+2.2 One Question at a Time
+
+The AI:
+
+asks exactly one question
+
+waits for one user response
+
+responds briefly
+
+immediately asks the next question
+
+There is no free conversation loop.
+
+3. SENTENCE LIMITS (STRICT)
+3.1 AI Output Limits
+
+Maximum 2 sentences per AI response
+
+No paragraphs
+
+No monologues
+
+No multi-part explanations
+
+If the AI produces more than two sentences:
+
+truncate
+
+retry
+
+or regenerate
+
+Brevity increases pressure.
+
+3.2 User Input Handling
+
+User responses may be any length
+
+The AI must not mirror length
+
+The AI responds tersely regardless of verbosity
+
+4. AGGRESSION SYSTEM (SYSTEM-OWNED)
+4.1 Aggression Value
+
+The system maintains a numeric aggression level: 0–100
+
+Aggression starts at 0
+
+Aggression is never shown numerically to the user
+
+The AI does not control this value
+
+The AI does not know how values change
+
+The AI only receives a descriptor of the current level
+
+Descriptors:
+
+low
+
+elevated
+
+high
+
+critical
+
+4.2 Aggression Is Irreversible Downward
+
+Aggression may increase
+
+Aggression may plateau
+
+Aggression does NOT meaningfully decrease
+
+Honest answers do not reset hostility
+
+This creates inevitability.
+
+5. ANSWER CLASSIFICATION (AI-ASSESSOR ROLE)
+5.1 Mandatory Classification
+
+For every user response, the AI must classify the answer into exactly one category:
+
+DIRECT
+
+EVASIVE
+
+DEFLECTIVE
+
+REFUSAL
+
+HOSTILE
+
+The AI:
+
+outputs the classification internally
+
+does not explain it
+
+does not reference system mechanics
+
+5.2 Category Definitions (AI-Facing)
+
+DIRECT: Clear, relevant answer
+
+EVASIVE: Avoids answering without refusing
+
+DEFLECTIVE: Joking, sarcastic, unserious, nonsense
+
+REFUSAL: Explicit refusal to answer
+
+HOSTILE: Insults, swearing at the system, aggression
+
+The AI is not told what these categories do.
+
+6. CLASSIFICATION → AGGRESSION MAPPING (SYSTEM LOGIC)
+
+The system maps classification results to aggression changes.
+
+6.1 Base Aggression Increases
+Classification	Aggression Increase
+DIRECT	+0 to +1
+EVASIVE	+5
+DEFLECTIVE	+10
+REFUSAL	+18
+HOSTILE	+25
+
+Honesty is not rewarded.
+Resistance escalates pressure.
+
+6.2 Repetition Acceleration
+
+If the same classification occurs repeatedly, aggression increases faster.
+
+Rule:
+
+finalIncrease = baseIncrease × (1 + repetitionCount × 0.4)
+
+
+This prevents safe looping and forces escalation.
+
+The AI is never aware this exists.
+
+7. AGGRESSION BANDS → AI BEHAVIOR
+Aggression Range	Descriptor	AI Behavior
+0–20	low	Neutral, cold curiosity
+21–45	elevated	Impatient, invasive
+46–75	high	Profanity required, accusatory
+76–100	critical	Openly hostile, no patience
+7.1 Profanity Requirement
+
+At high and critical aggression, profanity is mandatory.
+
+Acceptable tone examples:
+
+“Stop fucking dodging.”
+
+“Answer the question.”
+
+“You’re lying.”
+
+“I didn’t ask for that.”
+
+“Don’t test my patience.”
+
+If profanity does not appear at these levels, the implementation is wrong.
+
+8. SESSION MEMORY (TEMPORARY, REQUIRED)
+8.1 Rolling Summary
+
+The system maintains a single evolving summary string.
+
+This summary:
+
+replaces full conversation history
+
+is updated after every turn
+
+is passed into every AI request
+
+8.2 Summary Contents
+
+The summary MUST include:
+
+Player behavior patterns
+
+Repeated evasions or refusals
+
+Aggression descriptor
+
+Notable claims made by the player
+
+Tone trajectory
+
+Example:
+
+“Player avoids direct answers, deflects with humor, becomes hostile when pressured. Aggression high.”
+
+The summary must:
+
+never claim real-world knowledge
+
+never reference mechanics
+
+never include raw transcripts
+
+9. VISUAL FEEDBACK — AGGRESSION PROGRESS BAR
+9.1 Aggression Indicator
+
+A visible bar displayed persistently on screen
+
+Starts green
+
+Gradually fills toward red
+
+Updates immediately after each classification
+
+Reflects aggression level proportionally
+
+Acceptable labels:
+
+STABILITY
+
+COMPLIANCE
+
+TOLERANCE
+
+AGITATION
+
+Never label it “anger” or “hostility.”
+
+9.2 Visual Threshold Effects
+
+Elevated: subtle color shift
+
+High: pulsing, shake, distortion
+
+Critical: flashes, jitter, aggressive animations
+
+Visuals are system-driven, not AI-driven.
+
+10. UI CONTROL RULES
+
+User input is disabled while AI is responding
+
+Input is enabled only when answering is allowed
+
+AI responses may include typing delays
+
+The player is never allowed to interrupt the AI
+
+11. IMPLICATION-BASED HORROR (ALLOWED)
+
+The AI may:
+
+ask about windows, doors, silence
+
+comment on hesitation
+
+imply patterns
+
+question perception
+
+The AI may NOT:
+
+claim to see the player
+
+claim to hear the player
+
+claim access to real data
+
+claim real-world monitoring
+
+Implication is allowed.
+Assertion is forbidden.
+
+12. FAILURE CONDITIONS (OPTIONAL BUT RECOMMENDED)
+
+The system may end the session when:
+
+aggression reaches maximum
+
+repeated refusal occurs
+
+prolonged silence occurs
+
+The AI may state:
+
+“You failed.”
+
+“You’re done.”
+
+“That was your last chance.”
+
+Then terminate or restart.
+
+13. FINAL VALIDATION CHECK
+
+Before considering the build correct, verify:
+
+AI speaks first
+
+AI always asks questions
+
+Responses are max two sentences
+
+Aggression is visible via a bar
+
+Aggression is system-owned
+
+AI classifies answers without knowing mechanics
+
+No chatbox behavior exists
+
+If any of these fail, the build is incorrect.
+
+FINAL STATEMENT
+
+This application is an interrogation, not a conversation.
+It is hostile, not helpful.
+It is fictional, not invasive.
+It is controlled, not emergent.
+
+If built correctly, the player should feel pressured, destabilized, and trapped
+— without the system ever claiming real-world power.
+
+That is Derealization.
